@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>i Tube Movie</title>
+<!-- Font Awesome for icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+<style>
+  /* Reset and base styles */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1c1c1c;
+    color: #fff;
+  }
+
+  /* Header styles */
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid #444;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+  }
+
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      padding: 0px 8px;
+      background: linear-gradient(45deg, #00ff88, #00ccff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+  /* Search container with icon and input */
+  .search-container {
+    display: flex;
+    align-items: center;
+    background-color: rgba(40, 40, 40, 0.8);
+    border-radius: 20px;
+    padding: 0 8px;
+    margin-right: 15px;
+    border: 1px solid #444;
+    width: 220px;
+    transition: all 0.3s ease;
+  }
+
+  .search-container:focus-within {
+    box-shadow: 0 0 0 2px rgba(0, 204, 255, 0.5);
+    border-color: #00ccff;
+  }
+
+  .search-container i {
+    color: #aaa;
+    font-size: 16px;
+    margin-right: 5px;
+  }
+
+  #search-bar {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: #fff;
+    padding: 8px 1px;
+    font-size: 14px;
+    outline: none;
+  }
+
+  #search-bar::placeholder {
+    color: #888;
+  }
+
+  /* Tags styles */
+  .tags {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    overflow-x: auto;
+    padding: 8px 0;
+    width: 100%;
+  }
+
+  .tags .tag {
+    padding: 5px 12px;
+    background-color: #333;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    border: 1px solid #444;
+    transition: background-color 0.3s ease;
+  }
+
+  .tags .tag:hover {
+    background: linear-gradient(to right, #2c3e50, #4ca1af);
+  }
+
+  /* Container for video items */
+  #frames-container {
+    margin-top: 120px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 7px;
+    height: calc(100vh - 120px);
+    overflow-y: auto;
+  }
+
+  /* Video item styles */
+  .video-item {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .video-item img {
+    width: 100%;
+    aspect-ratio: 16 / 23;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.2s;
+  }
+
+  .video-item img:hover {
+    transform: scale(1.02);
+  }
+
+  .video-title {
+    font-size: 11px;
+    text-align: center;
+    margin-top: 5px;
+    font-weight: bold;
+  }
+
+  .video-year {
+    font-size: 10px;
+    color: #aaa;
+    text-align: center;
+  }
+
+  /* Save button style */
+  .save-button {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .save-button:hover {
+    background-color: rgba(0,0,0,0.8);
+  }
+
+  /* Video Navigation Styles */
+  #video-nav {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #121212;
+    z-index: 1001;
+    overflow: hidden;
+  }
+
+  #video-nav iframe {
+    width: 100%;
+    height: 36.8%;
+    border: none;
+    border-radius: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin-top: 60px;
+  }
+
+  #close-videonav {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: linear-gradient(to right, #2c3e50, #4ca1af);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 1002;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #close-videonav:hover {
+    background: linear-gradient(to right, #2c3e50, #4ca1af);
+  }
+
+  #social-media {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+/* Social Media Descriptions */
+#social-media-descriptions {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+#social-media-descriptions h2 {
+    font-size: 15px;
+    color: #333;
+    margin: 5;
+}
+
+/* Social Media Icons */
+#social-media {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(to right, #004d00, #00b300);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.social-icon:hover {
+    background-color: #555;
+}
+
+  #popular-videos {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.0);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+  }
+
+  #popular-videos h3 {
+    margin: 0 0 15px;
+    font-size: 14px;
+    color: #ffffff;
+    text-align: center;
+  }
+
+  #popular-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 2px;
+    padding: 2px 0;
+  }
+
+  .popular-item {
+    flex: 0 0 auto;
+    width: 150px;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: transform 0.3s;
+    overflow: hidden;
+  }
+
+  .popular-item:hover {
+    transform: scale(1.05);
+  }
+
+  .popular-item img {
+    width: 92%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  .popular-item h4 {
+    font-size: 8px;
+    margin: 0 0 10px;
+    color: #ffffff;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  /* Footer styles */
+  footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0;
+    background-color: #000;
+    border-top: 1px solid #333;
+    box-shadow: 0 -4px 6px rgba(0,0,0,0.1);
+    z-index: 999;
+    transition: transform 0.3s;
+  }
+  .nav-icon {
+    text-align: center;
+    font-size: 8px;
+    color: #ccc;
+    cursor: pointer;
+  }
+  .nav-icon i {
+    font-size: 20px;
+    display: block;
+    margin: 0px auto;
+  }
+  .nav-icon:hover {
+    color: #4ca1af;
+  }
+  .post-video-icon {
+    background: linear-gradient(to right, #2c3e50, #4ca1af);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    border: 1px solid #333;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  .post-video-icon:hover {
+    background-color: #4ca1af;
+  }
+
+  /* Additional containers for playlist, saved, history */
+  #playlist-container, #saved-container, #history-container {
+    margin-top: 120px;
+    padding: 10px;
+    display: none;
+    height: calc(100vh - 120px);
+    overflow-y: auto;
+    background-color: #1c1c1c;
+  }
+  #playlist-content, #saved-content, #history-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  /* Saved & history item styles */
+  .saved-item, .history-item {
+    display: flex;
+    align-items: center;
+    background-color: #141414;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  .saved-item:hover, .history-item:hover {
+    background-color: #222;
+  }
+  .saved-item img, .history-item img {
+    width: 100px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+  .saved-item h3, .history-item h3 {
+    margin: 0;
+    font-size: 12px;
+    flex: 1;
+  }
+  .saved-item span {
+    cursor: pointer;
+    color: red;
+    margin-left: 10px;
+    font-size: 14px;
+    transition: color 0.3s;
+  }
+  .saved-item span:hover {
+    color: darkred;
+    text-decoration: underline;
+  }
+
+  /* Installation message styles */
+  #install-message {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    color: #333;
+    padding: 12px 20px;
+    border-radius: 12px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    max-width: 500px;
+    width: 80%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+  #install-message p {
+    margin: 0 0 10px;
+    font-size: 12px;
+    text-align: center;
+  }
+  .install-btn {
+    background: linear-gradient(to right, #2c3e50, #4ca1af);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  #close-install {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  /* Ad container styles */
+  .ad-container {
+      position: fixed;
+      bottom: 0;
+      width: 95%;
+      background: #fff;
+      border: 1px solid #ccc;
+      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 1000;
+  }
+  .ad-content {
+      display: flex;
+      align-items: center;
+      flex-grow: 1;
+      overflow: hidden;
+  }
+  .app-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-right: 10px;
+      flex-shrink: 0;
+  }
+  .app-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+  }
+  .ad-info {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+  }
+  .app-name {
+      font-weight: bold;
+      font-size: 16px;
+      color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 200px;
+      margin-bottom: 4px;
+  }
+  .ad-meta {
+      font-size: 14px;
+      color: #555;
+      white-space: nowrap;
+  }
+  .install-button {
+      background-color: #007bff;
+      color: white;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      margin-left: 10px;
+      flex-shrink: 0;
+  }
+  .install-button:hover {
+      background-color: #0056b3;
+  }
+  .sponsored {
+      font-size: 12px;
+      color: #777;
+      margin-right: 5px;
+  }
+  .ad-wrapper {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      overflow: hidden;
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="header-top">
+    <div class="logo">iTUBE</div>
+    <div class="search-container">
+      <i class="fas fa-search"></i>
+      <input type="text" id="search-bar" placeholder="Search..." aria-label="Search videos" />
+    </div>
+  </div>
+  <div class="tags" id="tag-container">
+    <div class="tag" onclick="filterByTag('Algaita')">Algaita</div>
+    <div class="tag" onclick="filterByTag('Sultan')">Sultan</div>
+    <div class="tag" onclick="filterByTag('Yusif')">Yusif</div>
+    <div class="tag" onclick="filterByTag('Mega')">Mega</div>
+    <div class="tag" onclick="filterByTag('Indian')">Indian</div>
+  </div>
+</header>
+
+<!-- Install message -->
+<div id="install-message">
+  <p>For non-stop video enjoyment, install the i Tube app now!</p>
+  <a href="https://drive.google.com/file/d/1M2BGHFzJGC_hlYgZQddiZmDXtxAiY2ML/view?usp=drivesdk" target="_blank" class="install-btn">Install Now</a>
+  <button id="close-install" aria-label="Close">✖</button>
+</div>
+
+<!-- Main content: video grid -->
+<div id="frames-container"></div>
+
+<!-- Video overlay -->
+<div id="video-nav">
+  <button id="close-videonav" aria-label="Close video"><i class="fas fa-arrow-left"></i></button>
+  <iframe id="video-player" src="" allowfullscreen></iframe>  
+    <div id="social-media-links" style="display:flex; justify-content:center; gap:10px; margin-top:10px;">
+      <a href="https://www.facebook.com/username" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://www.youtube.com/channel/UC123456" target="_blank" class="social-icon"><i class="fab fa-youtube"></i></a>
+      <a href="https://twitter.com/username" target="_blank" class="social-icon"><i class="fab fa-twitter"></i></a>
+      <a href="https://telegram.me/username" target="_blank" class="social-icon"><i class="fab fa-telegram"></i></a>
+      <a href="https://pinterest.com/username" target="_blank" class="social-icon"><i class="fab fa-pinterest"></i></a>
+      <a href="https://www.instagram.com/username" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+      <a href="https://wa.me/1234567890" target="_blank" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://www.tiktok.com/@username" target="_blank" class="social-icon"><i class="fab fa-tiktok"></i></a>
+    </div>  
+  
+  <!-- Popular videos -->
+  <div id="popular-videos">
+    <h3>Dive into non-stop fun with more movies below.</h3>            
+    <div id="popular-container"></div>
+    
+    <!-- Social media sharing -->
+  <div id="social-media">
+    <i class="fab fa-telegram social-icon" onclick="shareLink('telegram')"></i>
+    <i class="fab fa-twitter social-icon" onclick="shareLink('twitter')"></i>
+    <i class="fab fa-whatsapp social-icon" onclick="shareLink('whatsapp')"></i>
+    <i class="fas fa-share social-icon" onclick="shareLink('generic')"></i>
+    </div>
+  </div>
+  <!-- Ad container below popular videos -->
+  <div class="ad-container" id="adContainer" style="display: none;">
+    <div class="ad-wrapper">
+      <div class="ad-content" id="adContent"></div>
+    </div>
+    <a href="#" id="installButton" class="install-button" target="_blank">Install</a>
+  </div>
+</div>
+
+<!-- Playlist section -->
+<div id="playlist-container">
+  <h2></h2>
+  <div id="playlist-content"></div>
+</div>
+
+<!-- Saved videos -->
+<div id="saved-container">
+  <h2>Favorites</h2>
+  <div id="saved-content"></div>
+</div>
+
+<!-- History views -->
+<div id="history-container">
+  <h2>History Views</h2>
+  <div id="history-content"></div>
+</div>
+
+<!-- Footer navigation -->
+<footer>
+  <div class="nav-icon" id="home-btn" onclick="showHome()">
+    <i class="fas fa-home"></i><br>Home
+  </div>
+  <div class="nav-icon" id="playlist-btn" onclick="showPlaylist()">
+    <i class="fas fa-fire"></i><br>New & Hot
+  </div>
+  <div class="nav-icon post-video-icon" onclick="openNovels()" aria-label="Post New Video">
+    <i class="fas fa-plus"></i>
+  </div>
+  <div class="nav-icon" id="saved-btn" onclick="showSaved()">
+    <i class="fas fa-bookmark"></i><br>Favorites
+  </div>
+  <div class="nav-icon" id="history-btn" onclick="showHistory()">
+    <i class="fas fa-history"></i><br>History
+  </div>
+</footer>
+
+<script>
+  // Your JavaScript code here
+  const data = [
+    {
+      imgUrl: "https://ucarecdn.com/cca20703-0a5b-4866-9ce8-04cb4d9de8d2/-/preview/675x1000/",
+      videoUrl: "https://drive.google.com/file/d/1dToMY9TsNo5wKwuzJTSnkvR38pfvIBUl/preview",
+      title: "DAMBEN MAZA",
+      year: "Algaita",
+      tag: "Algaita",
+    },
+    {
+      imgUrl: "https://bit.ly/4fFLfwd",
+      videoUrl: "https://drive.google.com/file/d/1v-bqss4vT5sq6hqPsNee1pFNBQpX3ZYp/preview",
+      title: "Viking: Battle of Heirs",
+      year: "2023",
+      tag: "Action",
+    },
+    {
+      imgUrl: "https://bit.ly/4gCtC1L",
+      videoUrl: "https://youtube.com/embed/4Q8fJlbUn3w",
+      title: "Apocalypto",
+      year: "2006",
+      tag: "Battles",
+    },
+    {
+      imgUrl: "https://bit.ly/3Phnujl",
+      videoUrl: "https://youtube.com/embed/rsvGs96-ddo",
+      title: "Tsunami Sharks",
+      year: "2024",
+      tag: "Horror",
+    },
+    {
+      imgUrl: "https://bit.ly/3EdJhpW",
+      videoUrl: "https://youtube.com/embed/_q0HpkMrhdc",
+      title: "Conan the Adventurer",
+      year: "1997",
+      tag: "Action",
+    },
+    {
+      imgUrl: "https://bit.ly/4haIvbD",
+      videoUrl: "https://v.moviebox.ng/SroObuh5AM",
+      title: "The Crow",
+      year: "2024",
+      tag: "Horror",
+    },
+    {
+      imgUrl: "https://bit.ly/405kXOj",
+      videoUrl: "https://youtube.com/embed/CumW3IY1mMg",
+      title: "God of War",
+      year: "2024",
+      tag: "Action",
+    },
+    {
+      imgUrl: "https://bit.ly/4gCtcbn",
+      videoUrl: "https://youtube.com/embed/9QB2GjHg0Tw",
+      title: "Flight from Hell",
+      year: "2014",
+      tag: "Action",
+    },
+  ];
+
+  let savedVideos = JSON.parse(localStorage.getItem('savedVideos')) || [];
+  let historyVideos = JSON.parse(localStorage.getItem('historyVideos')) || [];
+
+  // Function to display home page
+  const displayHome = () => {
+    document.getElementById('frames-container').style.display = 'grid';
+    document.getElementById('playlist-container').style.display = 'none';
+    document.getElementById('saved-container').style.display = 'none';
+    document.getElementById('history-container').style.display = 'none';
+    createVideoItems(data);
+  };
+
+  // Create video items
+  const createVideoItems = (filteredData) => {
+    const container = document.getElementById('frames-container');
+    container.innerHTML = '';
+    (filteredData || data).forEach((item) => {
+      const videoItem = document.createElement('div');
+      videoItem.className = 'video-item';
+
+      const img = document.createElement('img');
+      img.src = item.imgUrl;
+      img.alt = item.title;
+      img.onclick = () => {
+        addToHistory(item);
+        openVideoNav(item.videoUrl);
+      };
+
+      const titleDiv = document.createElement('div');
+      titleDiv.className = 'video-title';
+      titleDiv.innerText = item.title;
+
+      const yearDiv = document.createElement('div');
+      yearDiv.className = 'video-year';
+      yearDiv.innerText = item.year;
+
+      const saveBtn = document.createElement('button');
+      saveBtn.className = 'save-button';
+      saveBtn.innerHTML = '<i class="fas fa-bookmark"></i>';
+      saveBtn.onclick = (e) => {
+        e.stopPropagation();
+        saveVideo(item);
+        saveBtn.style.color = 'red'; // Indicate saved
+      };
+
+      videoItem.appendChild(img);
+      videoItem.appendChild(titleDiv);
+      videoItem.appendChild(yearDiv);
+      videoItem.appendChild(saveBtn);
+      container.appendChild(videoItem);
+    });
+  };
+
+  const openVideoNav = (videoUrl) => {
+    document.getElementById('video-nav').style.display = 'block';
+    document.getElementById('video-player').src = videoUrl;
+    populatePopularVideos();
+  };
+
+  const closeVideoNav = () => {
+    document.getElementById('video-nav').style.display = 'none';
+    document.getElementById('video-player').src = '';
+  };
+
+  const populatePopularVideos = () => {
+    const container = document.getElementById('popular-container');
+    container.innerHTML = '';
+    data.forEach((item) => {
+      const popItem = document.createElement('div');
+      popItem.className = 'popular-item';
+      popItem.onclick = () => {
+        addToHistory(item);
+        openVideoNav(item.videoUrl);
+      };
+
+      const img = document.createElement('img');
+      img.src = item.imgUrl;
+
+      const title = document.createElement('h4');
+      title.textContent = item.title;
+
+      popItem.appendChild(img);
+      popItem.appendChild(title);
+      container.appendChild(popItem);
+    });
+  };
+
+  const saveVideo = (video) => {
+    if (!savedVideos.some(v => v.videoUrl === video.videoUrl)) {
+      savedVideos.unshift(video);
+      localStorage.setItem('savedVideos', JSON.stringify(savedVideos));
+      displaySaved();
+    } else {
+      alert(`${video.title} is already saved!`);
+    }
+  };
+
+  const addToHistory = (video) => {
+    if (!historyVideos.some(h => h.videoUrl === video.videoUrl)) {
+      historyVideos.unshift(video);
+      if (historyVideos.length > 10) {
+        historyVideos.pop();
+      }
+      localStorage.setItem('historyVideos', JSON.stringify(historyVideos));
+    }
+  };
+
+  // Show saved videos
+  const displaySaved = () => {
+    document.getElementById('frames-container').style.display = 'none';
+    document.getElementById('playlist-container').style.display = 'none';
+    document.getElementById('history-container').style.display = 'none';
+    document.getElementById('saved-container').style.display = 'block';
+
+    const container = document.getElementById('saved-content');
+    container.innerHTML = '';
+
+    savedVideos.forEach((item, index) => {
+      const savedItem = document.createElement('div');
+      savedItem.className = 'saved-item';
+
+      const img = document.createElement('img');
+      img.src = item.imgUrl;
+      img.onclick = () => {
+        addToHistory(item);
+        openVideoNav(item.videoUrl);
+      };
+
+      const titleDiv = document.createElement('h3');
+      titleDiv.innerText = item.title;
+
+      const yearDiv = document.createElement('div');
+      yearDiv.className = 'video-year';
+      yearDiv.innerText = item.year;
+
+      const removeBtn = document.createElement('span');
+      removeBtn.innerText = '🔖 REMOVE';
+      removeBtn.onclick = (e) => {
+        e.stopPropagation();
+        removeSavedVideo(index);
+      };
+
+      savedItem.appendChild(img);
+      savedItem.appendChild(titleDiv);
+      savedItem.appendChild(yearDiv);
+      savedItem.appendChild(removeBtn);
+      container.appendChild(savedItem);
+    });
+  };
+
+  const removeSavedVideo = (index) => {
+    savedVideos.splice(index, 1);
+    localStorage.setItem('savedVideos', JSON.stringify(savedVideos));
+    displaySaved();
+  };
+
+  // Show playlist
+  const displayPlaylist = () => {
+    document.getElementById('frames-container').style.display = 'none';
+    document.getElementById('saved-container').style.display = 'none';
+    document.getElementById('history-container').style.display = 'none';
+    document.getElementById('playlist-container').style.display = 'block';
+
+    const playlistData = [
+      { imgUrl: "https://bit.ly/4gCtC1L", videoUrl: "https://youtube.com/embed/CetjkiaH2x0", title: "APOCALYPSE 2", year: "2021" },
+      { imgUrl: "https://bit.ly/4fFLfwd", videoUrl: "https://youtube.com/embed/BAQV7hQdznE", title: "VIKING BATTLE", year: "2023" },
+      { imgUrl: "https://bit.ly/4gZ1VzL", videoUrl: "https://youtube.com/embed/xzk1ko7AN2M", title: "PTERODACTYL 2", year: "2023" },
+    ];
+
+    createVideoItems(playlistData);
+  };
+
+  // Show history
+  const displayHistory = () => {
+    document.getElementById('frames-container').style.display = 'none';
+    document.getElementById('playlist-container').style.display = 'none';
+    document.getElementById('saved-container').style.display = 'none';
+    document.getElementById('history-container').style.display = 'block';
+
+    const container = document.getElementById('history-content');
+    container.innerHTML = '';
+
+    historyVideos.forEach((item) => {
+      const histItem = document.createElement('div');
+      histItem.className = 'history-item';
+
+      const img = document.createElement('img');
+      img.src = item.imgUrl;
+      img.onclick = () => {
+        addToHistory(item);
+        openVideoNav(item.videoUrl);
+      };
+
+      const titleDiv = document.createElement('h3');
+      titleDiv.innerText = item.title;
+
+      const yearDiv = document.createElement('div');
+      yearDiv.className = 'video-year';
+      yearDiv.innerText = item.year;
+
+      histItem.appendChild(img);
+      histItem.appendChild(titleDiv);
+      histItem.appendChild(yearDiv);
+      container.appendChild(histItem);
+    });
+  };
+
+  // Navigation functions
+  const showHome = () => {
+    displayHome();
+  };
+
+  const showPlaylist = () => {
+    displayPlaylist();
+  };
+
+  const showSaved = () => {
+    displaySaved();
+  };
+
+  const showHistory = () => {
+    displayHistory();
+  };
+
+  const openNovels = () => {
+    window.open("https://your-novels-url.com", "_blank");
+  };
+
+  // Search handling with icon
+  let debounceTimer;
+  document.getElementById('search-bar').addEventListener('input', () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      const term = document.getElementById('search-bar').value.toLowerCase();
+      const filtered = data.filter(item => item.title.toLowerCase().includes(term));
+      createVideoItems(filtered);
+    }, 300);
+  });
+
+  // Filter by tag
+  const filterByTag = (tag) => {
+    const filtered = data.filter(item => item.tag === tag);
+    createVideoItems(filtered);
+  };
+
+  // Share links
+  const shareLink = (platform) => {
+    const url = 'https://i-tube-movies.netlify.app/';
+    let shareUrl = '';
+
+    switch (platform) {
+      case 'telegram':
+        shareUrl = `https://telegram.me/share/url?url=${encodeURIComponent(url)}`;
+        break;
+      case 'twitter':
+        shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`;
+        break;
+      case 'whatsapp':
+        shareUrl = `https://wa.me/?text=${encodeURIComponent(url)}`;
+        break;
+      case 'generic':
+        if (navigator.share) {
+          navigator.share({ title: 'Check out this video platform!', url: url }).catch(console.error);
+          return;
+        } else {
+          alert('Sharing not supported in this browser.');
+          return;
+        }
+    }
+    window.open(shareUrl, '_blank');
+  };
+
+  // Hide footer on scroll
+  let lastScrollTop = 0;
+  const footer = document.querySelector('footer');
+
+  window.addEventListener('scroll', () => {
+    const st = window.pageYOffset || document.documentElement.scrollTop;
+    if (st > lastScrollTop) {
+      footer.style.transform = 'translateY(100%)';
+    } else {
+      footer.style.transform = 'translateY(0)';
+    }
+    lastScrollTop = st <= 0 ? 0 : st;
+  });
+
+  // Ad logic
+  const apps = [
+      {
+          name: "Cheelee: Short Videos f...",
+          icon: "https://tinylink.info/119AL",
+          rating: "4.5",
+          link: "https://tinylink.info/119Aa"
+      },
+      {
+          name: "CoolApp",
+          icon: "https://tinylink.info/119A0",
+          rating: "4.8",
+          link: "https://tinylink.info/YchD"
+      },
+      {
+          name: "Z League: Mini Games & Friends",
+          icon: "https://tinylink.info/Ycg4",
+          rating: "4.0",
+          link: "https://tinylink.info/119yG"
+      }
+  ];
+
+  const adContainer = document.getElementById('adContainer');
+  const adContent = document.getElementById('adContent');
+  const installButton = document.getElementById('installButton');
+
+  let currentAdIndex = parseInt(localStorage.getItem('currentAdIndex')) || 0;
+
+  function showAd(index) {
+    const app = apps[index];
+    adContent.innerHTML = `
+      <div class="app-icon">
+        <img src="${app.icon}" alt="App Icon" />
+      </div>
+      <div class="ad-info">
+        <div class="app-name">${app.name}</div>
+        <div class="ad-meta">
+          <span class="sponsored">Sponsored ·</span>
+          <span>${app.rating} ★ FREE</span>
+        </div>
+      </div>
+    `;
+    installButton.href = app.link;
+    adContainer.style.display = 'flex';
+
+    localStorage.setItem('currentAdIndex', index);
+  }
+
+  function rotateAds() {
+    showAd(currentAdIndex);
+    currentAdIndex = (currentAdIndex + 1) % apps.length;
+  }
+
+  // Show first ad immediately and rotate
+  rotateAds();
+  setInterval(rotateAds, 15000);
+
+  // Display home on load
+  document.addEventListener('DOMContentLoaded', () => {
+    displayHome();
+
+    // Show ad after 40 seconds
+    setTimeout(() => {
+      document.getElementById('adContainer').style.display = 'flex';
+    }, 40000);
+
+    // Close ad
+    document.getElementById('adContainer').onclick = () => {
+      document.getElementById('adContainer').style.display = 'none';
+    };
+
+    document.getElementById('close-videonav').onclick = closeVideoNav;
+    document.getElementById('close-install').onclick = () => {
+      document.getElementById('install-message').style.display = 'none';
+    };
+  });
+</script>
+</body>
+</html>
