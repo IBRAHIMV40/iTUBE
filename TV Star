@@ -1,0 +1,2672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>i Tube Movie</title>
+<!-- Font Awesome for icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+<style>
+  /* Reset and base styles */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1c1c1c;
+    color: #fff;
+  }
+
+  /* Header styles */
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid #444;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+  }
+
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .logo-container {
+            display: flex;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #fff;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo {
+            height: 38px; /* Adjust the height as needed */
+            border-radius: 10px;
+            border: 1px solid #;
+            width: auto; /* Maintain aspect ratio */
+        }
+
+  /* Search container with icon and input */
+.search-container {
+  display: flex;
+  align-items: center;
+  background-color: rgba(40, 40, 40, 0.8);
+  border-radius: 20px;
+  padding: 0 8px;
+  margin-right: 15px;
+  border: 1px solid #444;
+  width: 200px;
+  transition: all 0.3s ease;
+}
+
+.search-container:focus-within {
+  box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.1);
+  border-color: #b21f1f;
+}
+
+.search-container svg {
+  width: 16px;
+  height: 16px;
+  stroke: #aaa;
+  margin-right: 5px;
+  flex-shrink: 0;
+}
+
+#search-bar {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: #fff;
+  padding: 8px 1px;
+  font-size: 14px;
+  outline: none;
+}
+
+#search-bar::placeholder {
+  color: #888;
+}
+
+  /* Tags styles */
+.tags {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  overflow-x: auto;
+  padding: 8px 0;
+  width: 100%;
+  scrollbar-width: none; /* Firefox */
+}
+
+.tags::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.tags .tag {
+  padding: 5px 12px;
+  background-color: #333;
+  border-radius: 20px;
+  font-weight: 450;
+  font-size: 0px;
+  cursor: pointer;
+  border: 1px solid #444;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+  color: #fff;
+}
+
+.tags .tag.active {
+  background: linear-gradient(to right, #000, #ff0000, #000);
+  border-color: #ff0000;
+}
+
+.tags .tag:hover {
+  background: linear-gradient(to right, #000, #ff0000, #000);
+}
+.tags .tag {
+  padding: 5px 12px;
+  background-color: #333;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  border: 1px solid #444;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Logo inside tag */
+.tags .logo {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+  /* Container for video items */
+  #frames-container {
+    margin-top: 120px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 7px;
+    height: calc(100vh - 120px);
+    overflow-y: auto;
+  }
+
+  /* Video item styles */
+  .video-item {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .video-item img {
+    width: 100%;
+    aspect-ratio: 16 / 23;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.2s;
+  }
+
+  .video-item img:hover {
+    transform: scale(1.02);
+  }
+
+  .video-title {
+    font-size: 8px;
+    text-align: center;
+    margin-top: 5px;
+    font-weight: bold;
+  }
+
+  .video-year {
+    font-size: 8px;
+    color: #aaa;
+    text-align: center;
+  }
+
+  /* Save button style */
+  .save-button {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .save-button:hover {
+    background-color: rgba(0,0,0,0.8);
+  }
+
+  /* Video Navigation Styles */
+  #video-nav {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #121212;
+    z-index: 1001;
+    overflow: hidden;
+  }
+
+  #video-nav iframe {
+    width: 100%;
+    height: 36.8%;
+    border: none;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin-top: 50px;
+  }
+
+  #close-videonav {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: linear-gradient(to right, #ff0000, #b21f1f);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    border-top: 1px solid #ccc;
+    cursor: pointer;
+    z-index: 1002;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #close-videonav:hover {
+    background: linear-gradient(to right, #ff0000, #b21f1f);
+  }
+
+  #social-media {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+/* Social Media Descriptions */
+#social-media-descriptions {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+#social-media-descriptions h2 {
+    font-size: 0px;
+    color: #333;
+    margin: 5;
+}
+
+/* Social Media Icons */
+#social-media {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border-top: 1px solid #ccc;
+    background: linear-gradient(to right, #333, #333);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.social-icon:hover {
+    background-color: #555;
+}
+
+  #popular-videos {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.0);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+  }
+
+  #popular-videos h3 {
+    margin: 0 0 15px;
+    font-size: 18px;
+    color: #ffffff;
+    text-align: center;
+  }
+
+  #popular-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 2px;
+    padding: 2px 0;
+  }
+
+  .popular-item {
+    flex: 0 0 auto;
+    width: 150px;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: transform 0.3s;
+    overflow: hidden;
+  }
+
+  .popular-item:hover {
+    transform: scale(1.05);
+  }
+
+  .popular-item img {
+    width: 92%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  .popular-item h4 {
+    font-size: 8px;
+    margin: 0 0 10px;
+    color: #ffffff;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  /* Footer styles */
+  footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0;
+    background-color: #000;
+    border-top: 1px solid #333;
+    box-shadow: 0 -4px 6px rgba(0,0,0,0.1);
+    z-index: 999;
+    transition: transform 0.3s;
+  }
+  .nav-icon {
+    text-align: center;
+    font-size: 8px;
+    color: #ccc;
+    cursor: pointer;
+  }
+  .nav-icon i {
+    font-size: 20px;
+    display: block;
+    margin: 0px auto;
+  }
+  .nav-icon:hover {
+    color: #ff0000;
+  }
+  .post-video-icon {
+    background: linear-gradient(135deg, #000, #ff0000, #000);
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  .post-video-icon:hover {
+    background-color: #fff;
+  }
+
+  /* Additional containers for playlist, saved, history */
+  #playlist-container, #saved-container, #history-container {
+    margin-top: 120px;
+    padding: 10px;
+    display: none;
+    height: calc(100vh - 120px);
+    overflow-y: auto;
+    background-color: #1c1c1c;
+  }
+  #playlist-content, #saved-content, #history-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  /* Saved & history item styles */
+  .saved-item, .history-item {
+    display: flex;
+    align-items: center;
+    background-color: #141414;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  .saved-item:hover, .history-item:hover {
+    background-color: #222;
+  }
+  .saved-item img, .history-item img {
+    width: 100px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+  .saved-item h3, .history-item h3 {
+    margin: 0;
+    font-size: 10px;
+    flex: 1;
+  }
+  .saved-item span {
+    cursor: pointer;
+    color: red;
+    margin-left: 10px;
+    font-size: 14px;
+    transition: color 0.3s;
+  }
+  .saved-item span:hover {
+    color: darkred;
+    text-decoration: underline;
+  }
+
+  /* Installation message styles */
+  #install-message {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    color: #333;
+    padding: 12px 20px;
+    border-radius: 12px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    max-width: 500px;
+    width: 80%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+  #install-message p {
+    margin: 0 0 10px;
+    font-size: 12px;
+    text-align: center;
+  }
+  .install-btn {
+    background: linear-gradient(to right, #2c3e50, #4ca1af);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  #close-install {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  /* Ad container styles */
+  .ad-container {
+      position: fixed;
+      bottom: 0;
+      width: 95%;
+      background: #fff;
+      border: 1px solid #ccc;
+      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 1000;
+  }
+  .ad-content {
+      display: flex;
+      align-items: center;
+      flex-grow: 1;
+      overflow: hidden;
+  }
+  .app-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-right: 10px;
+      flex-shrink: 0;
+  }
+  .app-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+  }
+  .ad-info {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+  }
+  .app-name {
+      font-weight: bold;
+      font-size: 16px;
+      color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 200px;
+      margin-bottom: 4px;
+  }
+  .ad-meta {
+      font-size: 14px;
+      color: #555;
+      white-space: nowrap;
+  }
+  .install-button {
+      background-color: #007bff;
+      color: white;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      margin-left: 10px;
+      flex-shrink: 0;
+  }
+  .install-button:hover {
+      background-color: #0056b3;
+  }
+  .sponsored {
+      font-size: 12px;
+      color: #777;
+      margin-right: 5px;
+  }
+  .ad-wrapper {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      overflow: hidden;
+  }
+  #adOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(30, 30, 30, 0.1);
+  backdrop-filter: blur(5px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.popup {
+  background-color: rgba(30, 30, 30, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  width: 98%;
+  max-width: 400px;
+}
+.popup h2 {
+  font-size: 18px;
+  color: white;
+  margin-bottom: 20px;
+}
+.button-group {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+.button {
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  flex: 1;
+  margin: 0 10px;
+}
+.watch-ads {
+  background: #00b300;
+  color: white;
+}
+.activate-vip {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid #ccc;
+  color: white;
+}
+.activate-vip::placeholder {
+  color: #ccc;
+  opacity: 0.6;
+}
+</style>
+</head>
+<script>(function(d,z,s){s.src='https://'+d+'/401/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('groleegni.net',9550662,document.createElement('script'))</script>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="header-top">
+    <div class="logo-container">
+            <!-- Replace with your image URL -->
+            <img src="https://ucarecdn.com/05dddcf2-2d74-4219-ac0a-fce5d91bf6f4/-/preview/1000x1000/" alt="Movie Gram Logo" class="logo" /><span>TV Star</span>
+        </div>
+    <div class="search-container">
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+    <circle cx="11" cy="11" r="8" ></circle>
+    <line x1="21" y1="21" x2="16.65" y2="16.65" ></line>
+  </svg>
+  <input type="text" id="search-bar" placeholder="Search...">
+</div>
+  </div>
+  <div class="tags">
+  <button id="allBtn" class="tag active" onclick="filterByTag('all', event)">All</button>
+  <button class="tag" onclick="filterByTag('Algaita', event)"><img src="https://ucarecdn.com/2da7c681-7187-4fb3-9f20-545ca207f557/-/preview/128x128/" alt="Movie Gram Logo" class="logo" /> ALGAITA</button>
+  <button class="tag" onclick="filterByTag('Comedy', event)"><img src="https://ucarecdn.com/2da7c681-7187-4fb3-9f20-545ca207f557/-/preview/128x128/" alt="Movie Gram Logo" class="logo" /> SULTAN</button>
+  <button class="tag" onclick="filterByTag('Drama', event)"><img src="https://ucarecdn.com/2da7c681-7187-4fb3-9f20-545ca207f557/-/preview/128x128/" alt="Movie Gram Logo" class="logo" /> Y.ZAMANI</button>
+</div>
+  </div>
+</header>
+
+<!-- Font Awesome for Ad Icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<!-- Ad Popup -->
+<div id="adOverlay" style="display: none;">
+  <div class="popup">
+    <h2>Watch Ad to Generate Password</h2>
+
+    <!-- Watch Ad Button -->
+    <button class="button watch-ads" onclick="watchAd()" style="margin-top:10px;">
+      <i class="fas fa-ad"></i> Watch Ad
+    </button>
+
+    <!-- Password Input -->
+    <input type="text" id="vipPassword" placeholder="Password" class="button activate-vip" style="margin-top:10px;" />
+
+    <!-- Timer -->
+    <p id="timer" style="color: white; font-size: 14px; margin-top: 10px;"></p>
+
+    <!-- Continue Button -->
+    <button style="margin-top:15px;" class="button" onclick="validatePassword()">Continue</button>
+  </div>
+</div>
+
+<!-- Toast Message -->
+<div id="toast" style="display:none; position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#333; color:white; padding:10px 20px; border-radius:8px; font-size:14px; z-index:2000;"></div>
+
+<!-- Install message -->
+<div id="install-message">
+  <p>For non-stop video enjoyment, install the i Tube app now!</p>
+  <a href="https://drive.google.com/file/d/1M2BGHFzJGC_hlYgZQddiZmDXtxAiY2ML/view?usp=drivesdk" target="_blank" class="install-btn">Install Now</a>
+  <button id="close-install" aria-label="Close">✖</button>
+</div>
+
+<!-- Main content: video grid -->
+<div id="frames-container"></div>
+
+<!-- Video overlay -->
+<div id="video-nav">
+  <button id="close-videonav" aria-label="Close video"><i class="fas fa-arrow-left"></i></button>
+  <iframe id="video-player" src="" allowfullscreen></iframe>
+  
+    <div id="social-media-links" style="display:flex; justify-content:center; gap:10px; margin-top:10px;">
+      <a href="https://www.facebook.com/username" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://www.youtube.com/channel/UC123456" target="_blank" class="social-icon"><i class="fab fa-youtube"></i></a>
+      <a href="https://twitter.com/username" target="_blank" class="social-icon"><i class="fab fa-twitter"></i></a>
+      <a href="https://telegram.me/username" target="_blank" class="social-icon"><i class="fab fa-telegram"></i></a>
+      <a href="https://pinterest.com/username" target="_blank" class="social-icon"><i class="fab fa-pinterest"></i></a>
+      <a href="https://www.instagram.com/username" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+      <a href="https://wa.me/1234567890" target="_blank" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://www.tiktok.com/@username" target="_blank" class="social-icon"><i class="fab fa-tiktok"></i></a>
+    </div>  
+  
+  <!-- Popular videos -->
+  <div id="popular-videos">
+    <h3>Weekly Featured</h3>            
+    <div id="popular-container"></div>
+    
+    <!-- Social media sharing -->
+  <div id="social-media">
+    <i class="fab fa-telegram social-icon" onclick="shareLink('telegram')"></i>
+    <i class="fab fa-twitter social-icon" onclick="shareLink('twitter')"></i>
+    <i class="fab fa-whatsapp social-icon" onclick="shareLink('whatsapp')"></i>
+    <i class="fas fa-share social-icon" onclick="shareLink('generic')"></i>
+    </div>
+  </div>
+  <!-- Ad container below popular videos -->
+  <div class="ad-container" id="adContainer" style="display: none;">
+    <div class="ad-wrapper">
+      <div class="ad-content" id="adContent"></div>
+    </div>
+    <a href="#" id="installButton" class="install-button" target="_blank">Install</a>
+  </div>
+</div>
+
+<!-- Playlist section -->
+<div id="playlist-container">
+  <h2></h2>
+  <div id="playlist-content"></div>
+</div>
+
+<!-- Saved videos -->
+<div id="saved-container">
+  <h2>Favorites</h2>
+  <div id="saved-content"></div>
+</div>
+
+<!-- History views -->
+<div id="history-container">
+  <h2>History Views</h2>
+  <div id="history-content"></div>
+</div>
+
+<!-- Footer navigation -->
+<footer>
+  <div class="nav-icon" id="home-btn" onclick="showHome()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M3 9.75L12 3l9 6.75V21a1.25 1.25 0 01-1.25 1.25h-5.5A1.25 1.25 0 0113 21v-5.25h-2V21a1.25 1.25 0 01-1.25 1.25h-5.5A1.25 1.25 0 013 21V9.75z"></path>
+    </svg><br>Home
+  </div>
+
+  <div class="nav-icon" id="playlist-btn" onclick="showPlaylist()">
+    <!-- Film SVG -->
+        <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M8.99987 4.45459C8.24714 4.45459 7.63623 5.0655 7.63623 5.81823C7.63623 6.57095 8.24714 7.18186 8.99987 7.18186C9.75259 7.18186 10.3635 6.57095 10.3635 5.81823C10.3635 5.0655 9.75259 4.45459 8.99987 4.45459Z" fill="white" fill-opacity="0.6"></path>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M8.99987 10.6399C8.24714 10.6399 7.63623 11.2508 7.63623 12.0035C7.63623 12.7563 8.24714 13.3672 8.99987 13.3672C9.75259 13.3672 10.3635 12.7563 10.3635 12.0035C10.3635 11.2508 9.75259 10.6399 8.99987 10.6399Z" fill="white" fill-opacity="0.6"></path>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0922 7.54724C11.3394 7.54724 10.7285 8.15815 10.7285 8.91088C10.7285 9.6636 11.3394 10.2745 12.0922 10.2745C12.8449 10.2745 13.4558 9.6636 13.4558 8.91088C13.4558 8.15815 12.8449 7.54724 12.0922 7.54724Z" fill="white" fill-opacity="0.6"></path>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M5.90758 7.54724C5.15485 7.54724 4.54395 8.15815 4.54395 8.91088C4.54395 9.6636 5.15485 10.2745 5.90758 10.2745C6.66031 10.2745 7.27122 9.6636 7.27122 8.91088C7.27122 8.15815 6.66031 7.54724 5.90758 7.54724Z" fill="white" fill-opacity="0.6"></path>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M15.525 9C15.525 12.6037 12.6037 15.525 9 15.525C5.39634 15.525 2.475 12.6037 2.475 9C2.475 5.39634 5.39634 2.475 9 2.475C12.6037 2.475 15.525 5.39634 15.525 9ZM9.17896 16.873C9.11947 16.8743 9.05981 16.875 9 16.875C4.65076 16.875 1.125 13.3492 1.125 9C1.125 4.65076 4.65076 1.125 9 1.125C13.3492 1.125 16.875 4.65076 16.875 9C16.875 11.715 15.501 14.1092 13.4105 15.525H16.5C16.8728 15.525 17.175 15.8272 17.175 16.2C17.175 16.5728 16.8728 16.875 16.5 16.875H9.23129C9.21368 16.875 9.19623 16.8743 9.17896 16.873Z" fill="currentColor" ></path>
+</svg><br>New & Hot
+  </div>
+
+  <div class="nav-icon post-video-icon" onclick="openNovels()" aria-label="Post New Video">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+  <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+  </div>
+  </div>
+
+  <div class="nav-icon" id="saved-btn" onclick="showSaved()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 
+           2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09 
+           C13.09 3.81 14.76 3 16.5 3 
+           19.58 3 22 5.42 22 8.5 
+           c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
+</svg><br>Favorites
+  </div>
+
+  <div class="nav-icon" id="history-btn" onclick="showHistory()">
+    <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M4.81072 0.98757C5.09376 0.744961 5.51989 0.77774 5.7625 1.06078L8.0125 3.68578C8.03023 3.70647 8.04648 3.72792 8.06128 3.75H9.93872C9.95352 3.72792 9.96977 3.70647 9.9875 3.68578L12.2375 1.06078C12.4801 0.77774 12.9062 0.744961 13.1893 0.98757C13.4723 1.23018 13.5051 1.65631 13.2625 1.93935L11.7105 3.75H14.875C15.9796 3.75 16.875 4.64543 16.875 5.75V15.25C16.875 16.3546 15.9796 17.25 14.875 17.25H3.125C2.02043 17.25 1.125 16.3546 1.125 15.25V5.75C1.125 4.64543 2.02043 3.75 3.125 3.75H6.28949L4.7375 1.93935C4.49489 1.65631 4.52767 1.23018 4.81072 0.98757ZM3.125 5.1H14.875C15.234 5.1 15.525 5.39102 15.525 5.75V15.25C15.525 15.609 15.234 15.9 14.875 15.9H3.125C2.76601 15.9 2.475 15.609 2.475 15.25V5.75C2.475 5.39102 2.76601 5.1 3.125 5.1Z" fill="white" fill-opacity="0.6"></path>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M8.62708 8.41919H4.125V9.6027H5.6355V13.2121H7.11658V9.6027H8.62708V8.41919ZM10.5497 8.41919H9L10.8113 13.2121H12.4166L14.1952 8.41919H12.6912L11.6287 11.8684L10.5497 8.41919Z" fill="currentColor" ></path><br>TV Views
+  </div>
+</footer>
+
+<script>
+  // Your JavaScript code here
+  const data = [
+  {
+      imgUrl: "https://ucarecdn.com/84828ed4-7bd7-4178-8f82-75c479c058c2/-/preview/726x1000/",
+      videoUrl: "https://drive.google.com/file/d/1uR6YlR8KwXzl88KEk2Wzydkg2oAvoIy1/preview",
+      title: "RESHEN BINCIKE",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/088262f8-31f8-4da1-bbbf-5c0ac7d62ff3/-/preview/661x900/",
+      videoUrl: "https://drive.google.com/file/d/1uR6YlR8KwXzl88KEk2Wzydkg2oAvoIy1/preview",
+      title: "AIKI DA BASIRA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/8c32aecd-289d-4929-9235-6bcc0fe8d16b/-/preview/675x1000/",
+      videoUrl: "https://drive.google.com/file/d/1f9Uasagdyzbco33ZkssBcOk0XSYApQtx/preview",
+      title: "SINGHAM",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/44c72310-d04a-4e53-b45f-a313ca6f4e9f/-/preview/675x1000/",
+      videoUrl: "https://drive.google.com/file/d/1p3yau7wmqLtWLI1yMpi_5Rkx2ItrNatT/preview",
+      title: "SABABI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/85949d74-e7b9-4ec0-b986-d59a3d30bf50/-/preview/666x1000/",
+      videoUrl: "https://drive.google.com/file/d/1J2NniVNGfows2CdTrWa7rC_LxzKOHUyM/preview",
+      title: "JAGABA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/93480d3d-16a0-4edc-ba07-d7be373e5cad/-/preview/746x1000/",
+      videoUrl: "https://drive.google.com/file/d/1ty4Ai9tdjY4oxew5TB8DBfyfg1XxmI7K/preview",
+      title: "KANKAT",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/027089e2-eac7-49ab-b87a-31dc13c63902/-/preview/766x1000/",
+      videoUrl: "https://drive.google.com/file/d/1ty4Ai9tdjY4oxew5TB8DBfyfg1XxmI7K/preview",
+      title: "KANKAT",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/3b7964b7-88da-4386-bb3f-ea83d5fdb5e6/-/preview/715x954/",
+      videoUrl: "https://drive.google.com/file/d/1v-LTMDlS2XQTqChtAOFuX0u-Vd3p9RTO/preview",
+      title: "JAMI'IN KARYA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/c74001c6-6188-4789-8898-dc25adacac52/-/preview/855x1000/",
+      videoUrl: "https://drive.google.com/file/d/1Z_FFSmyo4NHopes8IuNCqYXEpLPiK-zO/preview",
+      title: "MAI LISSAFI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/25bcc0cb-c9d2-4221-ad75-476450d9a0c8/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1Z_FFSmyo4NHopes8IuNCqYXEpLPiK-zO/preview",
+      title: "MAI LISSAFI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/19a60140-9d20-42d0-a772-6674689e71a8/-/preview/782x1000/",
+      videoUrl: "https://drive.google.com/file/d/1rNOYcfP_ztYaKPrxq2HPqEZS3g3mJmoz/preview",
+      title: "RESHEN BINCIKE",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/309d42ae-e939-4b9c-9997-429f9fe26c65/-/preview/754x1000/",
+      videoUrl: "https://drive.google.com/file/d/1hzBj19XxbrW2loq_TM-SyaxH026ie1pg/preview",
+      title: "GOKARE",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/5feb79cf-6884-47bd-b8f1-d04a92ffa94a/-/preview/470x664/",
+      videoUrl: "https://drive.google.com/file/d/1t8qnagRptAD1UTpFnQiYIKM3O6uzh3ul/preview",
+      title: "TSEREN NASARA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/91ce6741-6a01-4d89-95bc-f4f58fd8ec31/-/preview/717x1000/",
+      videoUrl: "https://drive.google.com/file/d/1nvJtsQt17XnSguAjMwkf9i5EJPQdizNQ/preview",
+      title: "MASAUYI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/3197b725-258d-4ed2-ab2a-d0d05b396515/-/preview/750x1000/",
+      videoUrl: "https://drive.google.com/file/d/1yktZ6Khv_KuJ6inQxzjZZEkeJvyTdmQU/preview",
+      title: "RAMUWAR KARSHE",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/376b78cb-ee15-42ef-8d07-7e96339d5fab/-/preview/720x720/",
+      videoUrl: "https://drive.google.com/file/d/19yP4eP8Iy75gE-qH6RqDKkqkGsv36KSS/preview",
+      title: "DA'U",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/f106832c-c846-42d9-8b4f-4e77700117d9/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1jdBZxK9imY-Xgr3q4H_W6HVibppZKFgP/preview",
+      title: "MASS",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/6d75a9d9-9058-48cf-b722-3a6d5deec479/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1dLuOYpAoJany9IDYWKGYVMGyKsY2_F2c/preview",
+      title: "MARAR TABBAS",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/18278a94-ee7f-46dd-a2b9-014830d35b98/-/preview/712x958/",
+      videoUrl: "https://drive.google.com/file/d/1UFY-ZNzBu6vK3uiqIGAHpqpl1UIFpvS6/preview",
+      title: "ALMAKASHI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/2ebb1a64-060a-4f41-a6a7-a9de0c83c527/-/preview/636x1000/",
+      videoUrl: "https://drive.google.com/file/d/1_VqGYeCrVQU3m2INx3XDS1qAqjFj-0ar/preview",
+      title: "CHAKWAKIYA MAI ZAFI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/5013fdac-d0da-47a1-8b49-80f25944e9db/-/preview/695x1000/",
+      videoUrl: "https://drive.google.com/file/d/1Z5D88M_Yxj6E9FcFqToK7UPuf5MEnAFP/preview",
+      title: "MUGUN GANI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/7668e9b1-8b35-4f1d-87f7-7b77c73335a7/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1InknLJuuGoXE3hqyyHYyj2LLaOkajE8b/preview",
+      title: "INUWA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/19b8ef31-7a4c-48c5-a745-c1a3ffd3d96f/-/preview/603x912/",
+      videoUrl: "https://drive.google.com/file/d/1InknLJuuGoXE3hqyyHYyj2LLaOkajE8b/preview",
+      title: "FARMAKIN ADALCI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/604547bf-a7b6-42bf-b663-d71210077e42/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1YQsZA4Xgi2MslgmJUHcR_ndszuZY1sEk/preview",
+      title: "RA ONE (1)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/61b8060d-0f5b-4c34-ae76-1bc36e427998/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/11t5ZJbCQoRdpl_zSWjrbTMOZhyz7kc6r/preview",
+      title: "RA ONE (2)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/ce063833-f5d6-4757-bc0f-bbff47c3e6ac/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1oA3mgPGgH-gNNPmF_4UMr6WmS_IXcsXE/preview",
+      title: "YAN UKU",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/a0e2b6ff-ca8b-47a5-b325-db35039ec991/-/preview/600x800/",
+      videoUrl: "https://drive.google.com/file/d/1cR9Vsmwi0IODoLBJ9NVMj5XiyniwBCYw/preview",
+      title: "ZUCIYA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+    {
+      imgUrl: "https://ucarecdn.com/4bc0b45c-b663-4c04-bf69-5154b60ee879/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1ZWasMWfACyXNck5Mg2AiUhz1Wd_qwxK-/preview",
+      title: "MIZANI (1)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/9dbd1b5e-4627-4be0-bef3-ed00b901c07a/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1ZPSnBNOu8Nzunf-wLODAv0YBKrVY4xr6/preview",
+      title: "MIZANI (2)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/37cc90c1-c574-40a5-8c3c-63178b2dd9e2/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1mrvG53grpMQabJBgE1i5YbgzVk8aUvS-/preview",
+      title: "DAURIN TALALA (1)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/1ab86a0b-bd27-477c-8fb5-ace7ff957354/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1Tyc95pD0JZXtSSgcEJyj0vmyfog__i1D/preview",
+      title: "DAURIN TALALA (2)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/17e076a7-ce1e-4753-81e0-790f1340ee5f/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1FbaPBBmEfM1lvxjiK9o-Uk16psTCrJRN/preview",
+      title: "FUSKA BIYU (1)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/61e41d75-35ce-40a2-b685-ab03e5abf211/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1FbaPBBmEfM1lvxjiK9o-Uk16psTCrJRN/preview",
+      title: "FUSKA BIYU (2)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/7632b06c-0cb2-42dd-850b-1ac6bbee5a6d/-/preview/720x968/",
+      videoUrl: "https://drive.google.com/file/d/1Z7c_LEDJH2rhSphma-IJVeC2oKVYrrhu/preview",
+      title: "FASA KWANYA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+    {
+      imgUrl: "https://ucarecdn.com/76973ee7-604c-4073-a1d6-8f3ef75e57f8/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1lssF1eX0vfS7nBMWP9o2wg5RbaZg8TXI/preview",
+      title: "ZAZZAFA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/e92dc704-6875-456d-bad1-2728354fa7c4/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1M7jvYKiiqn9PHHIWimTaGBcudXmMkJrg/preview",
+      title: "GAREJI JANATA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/45fb6e12-39b0-45f4-9b12-95adb889dbe0/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1t0bVujHVxV0AjogRWI4nBFQKl1acdjiF/preview",
+      title: "DAREN SHIKA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/35f52309-9ecf-408d-b2f4-5f710009aaa8/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1QwaIRidNLLR9hHfMsUascZ7fi4m8fxTp/preview",
+      title: "AKAFTA (1)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/344c3d70-c9d7-41aa-b268-7ad70387ac29/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1L7v7Suv1PwSI2-uag1nmwJR3Q0m5BL-O/preview",
+      title: "AKAFTA (2)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/f47ccbf7-93fe-4c2c-a6b3-ffdae7df3933/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1eWamyfsraiZam4hCIEW9Inn22aMnuw2g/preview",
+      title: "NEMAN DUNIYA (1)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/525bf83f-2a6d-4497-aff6-5c6ddcabd8c4/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1eWamyfsraiZam4hCIEW9Inn22aMnuw2g/preview",
+      title: "NEMAN DUNIYA (2)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/c744f0e9-e90c-46e0-b3ae-f478543010b3/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1z73bmi9lPbGH4tyXNaTEabAJB0KoOtiQ/preview",
+      title: "UWAR WATSI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/600f087f-202f-4671-af84-74edb1fb2e3d/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1eiWyTOYyQoFZJIL4UX24ElZWz1iknACw/preview",
+      title: "SINGHAM",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/2fd8e8e1-ff19-4b50-b27e-a30302bdedec/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/18A4C336eiUvI4rhVDnVNZvaNhM-AT9dm/preview",
+      title: "AHALIN DAMBE (1)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/d898a01a-b71e-4bc7-9720-f413335ad21b/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/14z-SLOfQlYgyE4l4ZK946loz4gCNNsPj/preview",
+      title: "AHALIN DAMBE (2)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/ed4fcf7a-a6b6-4c20-b6c3-ab326ffcc408/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1P7IfwzSwm7vfjYvmz4gCrjiRFi8YIUvZ/preview",
+      title: "JIGON TALAKAWA (2)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/7a6690ab-54f9-4df9-8e4d-06ef87d64d9e/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1P7IfwzSwm7vfjYvmz4gCrjiRFi8YIUvZ/preview",
+      title: "JIGON TALAKAWA (2)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/f61d411f-e64d-4765-9c08-495e061e4d28/-/preview/446x600/",
+      videoUrl: "https://drive.google.com/file/d/181bnADvkA5OE1HJiPpj0mj_RgywhBx4Z/preview",
+      title: "MAGAUTA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/33deb75f-023d-4c68-9e65-a557e01721b4/-/preview/725x993/",
+      videoUrl: "https://drive.google.com/file/d/1fzWmUhN1sutuGqNhzXge_kKAvvKftNa1/preview",
+      title: "TSINI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/9d144eab-247b-47c4-95d8-ef5e9e6778a6/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1NEpfAsD3rfAoVB3yq2fg1_eJx4RzOjv1/preview",
+      title: "FARCEN GUMURZU (1)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/f91dfa5d-c70a-412d-804f-ec79796ea52f/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1dj_R54R7qz_Lgy2-pXsJUlsYReL9fPHt/preview",
+      title: "FARCEN GUMURZU (2)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/b60ddbe4-cfb2-47f9-8a87-30cf706ce70d/-/preview/706x1000/",
+      videoUrl: "https://drive.google.com/file/d/1hzFLju9ROOmVxaRUSX6IUnrHenSSx-Hx/preview",
+      title: "SOYAYYAR MAHAIFI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/d7cf90c0-500b-4f5c-9407-0740c34c9f3a/-/preview/350x622/",
+      videoUrl: "https://drive.google.com/file/d/1abBmHq-7c4JMjaYx3u--PV22_SDEz9tV/preview",
+      title: "KAIFIN FANSA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/5ccdd4ed-08f5-4d1b-8ab0-eb5727f21c27/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1hknlrRj34GnChSFSxw53o_GBDAapMEtx/preview",
+      title: "MAI SUBURBUDA (2)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/5ccdd4ed-08f5-4d1b-8ab0-eb5727f21c27/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1hknlrRj34GnChSFSxw53o_GBDAapMEtx/preview",
+      title: "MAI SUBURBUDA (1)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/c3c2a343-04c7-4b89-87a8-8ecf08485953/-/preview/707x1000/",
+      videoUrl: "https://drive.google.com/file/d/1nUq-wPEyezokealkTeQZ--4VHDmMJKFT/preview",
+      title: "DAN DAGAJI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/2bfc9b33-748c-4e9f-a8d5-5a2c68c14aa3/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1xUd9pDtAuCvJYK6lsN7ScFUAcfsugia-/preview",
+      title: "SARKIN ASKA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/391f68d2-f3d2-429d-acec-79f3d6d90914/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1jr_Mj7e5iD3LSL0pGj5-G4hiZtbTmlOB/preview",
+      title: "NINJAN KISA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/d689b8b5-19d7-4447-af12-56c78813eee5/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1BVGVuGXqS43Wa_kt4L-ddU0_OHp7alCE/preview",
+      title: "DODON SU",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/3aa3fa0d-92f6-4348-a364-f9388218555d/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1ZzFwBQ6ENV6et5yExJinPJLvFlUnyi2C/preview",
+      title: "TSEREN TSIRA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+    {
+      imgUrl: "https://ucarecdn.com/43e92d61-4604-45e7-aae3-e14e1f375cb4/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1B6yc5NbZyDlVfSCaeImCSSt_mhiLRfbh/preview",
+      title: "KOMAR HUKUMA (2)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/52becbd2-e0bd-4722-a492-8cb62452d40b/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1eKBlRL8UoadzUg5n3e7O-7ro7W6cv6uE/preview",
+      title: "KOMAR HUKUMA (1)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/75ba3a0f-890f-480e-beee-40e035503c1e/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1myD85T_9hMZvWyGDSVrvxXa4Wqwp_Spj/preview",
+      title: "MERLIN SEASON 1 EPSD 1",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/8061d264-293d-4140-9a87-147180f7a39c/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/13PWG-ghU7CmUu7DiQbxa66YpL5BMx7NI/preview",
+      title: "MERLIN SEASON 1 EPSD 2",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/9881e3d4-3fed-4a6b-b773-d8c80b47043c/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1xl0wBke-tKDqWi5DN00BAsZJmsQQdp3T/preview",
+      title: "MERLIN SEASON 1 EPSD 3",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/1854a7a5-7c12-4195-93b9-aef0539195f5/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1G6VrBj1-lKHkR0NQFjA2krWTXWBg9CK5/preview",
+      title: "MERLIN SEASON 1 EPSD 4",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/1242fbfd-127b-40ea-a730-f8e2b430c576/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1F0ssqeidlVsjnI8s4hIywPYkF5IIbGum/preview",
+      title: "MERLIN SEASON 1 EPSD 5",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/a04a8ed5-e6e6-4b0b-a928-bb81115ecb8c/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1pCl_xXd_0ZepqobEfFOrWcZ2MHWcWD_6/preview",
+      title: "MERLIN SEASON 1 EPSD 6",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/aa2d1724-1118-421a-ab7f-93f1bc324919/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1AVlI9oZN5-nYJfJXoPbtssGD2LIKCZcf/preview",
+      title: "MERLIN SEASON 1 EPSD 7",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/565aa15e-d57c-4e1e-887d-f2bf50146ea5/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/14312p058yAlu5D4_dFnE36GiSCXonILI/preview",
+      title: "MERLIN SEASON 1 EPSD 8",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/e2ea1e2c-cdbe-45ef-970d-d41798f07190/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1x3tLHvmWZ2VGdgs-MgrNpQ-gZMxOVj3_/preview",
+      title: "MERLIN SEASON 1 EPSD 9",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/f8df6496-2fdc-41aa-a957-7ec9cf3925d0/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1bIZ7KTk_8E6NlHYZOfz6YYfW-Tb8WVLt/preview",
+      title: "MERLIN SEASON 1 EPSD 10",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/c06d6d9b-1f5c-4b29-bf38-88a5f8cf0949/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1vZK8XRgMQmBsc3jqeKC7xUkKbdQ3d9cx/preview",
+      title: "MERLIN SEASON 1 EPSD 11",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/fc914051-fd36-48b4-981a-e937c0402af8/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1YDiFSx_pZV_AUslUbIHvtch4YV5Jbi8T/preview",
+      title: "MERLIN SEASON 1 EPSD 12",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/9fe456fd-9d12-4ed2-a1bd-ebe65b195682/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1C7s5QZ6-ORrDOJ0sTXGsiyMpwhlTYGPj/preview",
+      title: "MERLIN SEASON 1 EPSD 13",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/786787a6-7d4b-4f3c-9466-d1d64f6c91a2/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1YoRcXtw_NFD2s6AAnQHrv4wXQfvuvZJP/preview",
+      title: "MERLIN SEASON 2 EPSD 1",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/45cfbd85-87f0-40ab-b069-b73d626d9693/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1aTWy0SvIHsRhXk1_b1etQPYCvDtH3MCX/preview",
+      title: "MERLIN SEASON 2 EPSD 2",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/d05eba92-8124-4ce0-9ad5-eb5838e9ec64/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/18UpJrYvy2Uei11V82jLc5Wz6I0IrGHkf/preview",
+      title: "MERLIN SEASON 2 EPSD 3",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/ed9db90b-edcc-45db-9e0f-3778ae84bc0c/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1onICCNrOn5PgEkVLKiU-Mi2KQH5v3Jb8/preview",
+      title: "MERLIN SEASON 2 EPSD 4",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/721ecd53-98d4-486e-918f-2bee532a143b/-/preview/706x1000/",
+      videoUrl: "https://drive.google.com/file/d/1hzFLju9ROOmVxaRUSX6IUnrHenSSx-Hx/preview",
+      title: "SOYAYYAR MAHAIFI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/e123e88f-ea54-4dbf-ad32-49ada79e5045/-/preview/736x1000/",
+      videoUrl: "https://drive.google.com/file/d/13C5ykHWNIlfqMzxjKUuoHiB9B89qW1ky/preview",
+      title: "MAI NASARA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/53c0ba61-997d-4bfa-81c1-2bdc84f06a8e/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1grb8S8zRmSrHMPezcfMWQumM1xtCAAET/preview",
+      title: "GADARA (1)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/53c0ba61-997d-4bfa-81c1-2bdc84f06a8e/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1CLv3-WXm8kamyJLu48KOi1AsCNx7v0ZW/preview",
+      title: "GADARA (2)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/81d2c2ce-8a73-4337-95aa-23dc9906e8ab/-/preview/526x679/",
+      videoUrl: "https://drive.google.com/file/d/1y4c8ybEEE-73E6lkq5pxVMul-59fmDfO/preview",
+      title: "DAN ADAM BUTULU",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/f3d9a03c-abdf-4bdb-97b6-19f452b16b2f/-/preview/480x655/",
+      videoUrl: "https://drive.google.com/file/d/1YGHBeIxah8J34tKLTi0FgJ2fJsNPZ0F0/preview",
+      title: "MAI ARZIKI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/d5782d9f-13be-4ce0-8089-5c135cbd2920/-/preview/712x970/",
+      videoUrl: "https://drive.google.com/file/d/1owhDf7wlOgYJBnDAmKEFmvhgcJMS0GLz/preview",
+      title: "JAGORA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/a8670208-eac0-4dbe-bdcd-48d3b7e72c11/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1ZKZEC1bBF0GB6cjp-CXasxjPw-UxFL6e/preview",
+      title: "MARAR TSORO",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/9607fb8b-c38b-4269-a0e2-1d8e0cd17296/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1NAEyFWOIevSURjnEnDH9r_Oe76w7tThf/preview",
+      title: "CHAKWAKIYA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/39302e0a-7c00-4abc-899a-5b7e4d675a35/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1AAzsz4nKrFEP4yhSmJFS63vQ06KpM6yg/preview",
+      title: "WANTED",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/96a4c1bb-7ea4-4388-8a53-0e7c18c7f0ee/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1nr-Je_GnnwUuShK5eh3_0lL4XLhYtFiF/preview",
+      title: "SARKA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/7747e6a2-6efd-4f56-9bf3-7310b1acd928/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1Il-eFETuYzXXgDCuRAA2fpEd0FZltYLT/preview",
+      title: "GOSULO",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/cd5cd555-ceb3-4369-a9cb-256f23d166b6/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1A_VpANvjPp5LO3n41EATmmk5iSM7Xj9U/preview",
+      title: "CHAKWAKIYAR DAN SANDA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/7b805d2f-4b4a-4be5-b302-ac25b026becf/-/preview/630x900/",
+      videoUrl: "https://drive.google.com/file/d/1Y2rUQfYo2520ATFyc4D6nqr6PMJqefZh/preview",
+      title: "LABARIN DAN SANDA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/d27e0707-eac4-4601-9d36-74eae7c71ea5/-/preview/687x1000/",
+      videoUrl: "https://drive.google.com/file/d/198CabjCAK45MXVRyPX9MI9Y8RtMErrjM/preview",
+      title: "ZARAFI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/2eedd14f-5c0d-4cf3-b776-4b358e54b4c5/-/preview/707x1000/",
+      videoUrl: "https://drive.google.com/file/d/1KQWdNNHX2Yc4jfycLGhBXpDJT_0bjXm3/preview",
+      title: "GUNJI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/3952c929-2762-4e25-b52b-09346cd78438/-/preview/673x938/",
+      videoUrl: "https://drive.google.com/file/d/1izZMGegeIyT0sxK2i8nV_sgrvQZxWeLP/preview",
+      title: "MAI GAYYA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/7e9d9a43-b037-495f-9e72-1f9656b64343/-/preview/531x755/",
+      videoUrl: "https://drive.google.com/file/d/1iOGSjSkNaqfRR-sqan-gNZ3mTtf788J1/preview",
+      title: "KURI'AR ZINARE",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/dfc8337d-27e9-43db-8909-cc78519af697/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/17geQN9QFZOs4hpH-5i-9dJDGamli4z_Z/preview",
+      title: "SANSANIN ARTABU",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/64a0bb8f-d9cd-42b6-afd0-8f554a3767b0/-/preview/720x943/",
+      videoUrl: "https://drive.google.com/file/d/1l2r3gnINC82rThPZssM3v6Dq3iR9EKu3/preview",
+      title: "JAN AIKI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/71504a53-2ecd-48e6-986f-5209a7f7be4e/-/preview/727x1000/",
+      videoUrl: "https://drive.google.com/file/d/1lcIeDObyq3k1_jgqYBDZ6bup-u8tw45D/preview",
+      title: "SABABI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/640d26ce-8a3c-4959-a53c-cc14e5f2e992/-/preview/508x720/",
+      videoUrl: "https://drive.google.com/file/d/1zLNGNLSEhq1kKu5SoV_ONOIxuNioxhpz/preview",
+      title: "GWASKA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/34580747-ca43-4496-8cdc-89e4decb5b08/-/preview/692x1000/",
+      videoUrl: "https://drive.google.com/file/d/1Zm8RzdkBmYffv0CG8Um5mvgnX_8C0V4M/preview",
+      title: "DOLAYE UKU",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/fda636a8-3bd4-4de1-918e-6887695bacf2/-/preview/526x760/",
+      videoUrl: "https://drive.google.com/file/d/1TgyQ3PwlqAvwDwI_0OrpY-ZLhzlrMDcU/preview",
+      title: "MASHEKI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/f5c8144b-f510-4089-a501-e356dec8160c/-/preview/620x877/",
+      videoUrl: "https://drive.google.com/file/d/1gzbH_xmzwF-OqquR578WcE5JnjKt2IBe/preview",
+      title: "YANKAN KARFE",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/9b5ce521-8451-4e62-a5af-49904b7b29a8/-/preview/620x877/",
+      videoUrl: "https://drive.google.com/file/d/1rR0AB2UswMgMCAXG0A34w_6f-ot09LQ6/preview",
+      title: "YANAR FIKIRA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/5e50b9d3-5c3c-4683-b747-2ae6d57b2970/-/preview/743x1000/",
+      videoUrl: "https://drive.google.com/file/d/1rZIXNSXA8KfLLowTSgIqlB8PfsSCWZdu/preview",
+      title: "ZAKI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/4ba981b4-4040-4f90-82e4-984e005e0cbd/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1rOAn2AGiTOZ3gbYtY1vyyTPpwuvb4O-E/preview",
+      title: "WATA ALKARYA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/5992e917-51ba-430c-8225-7748d50384cc/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1FL0vTrCraTAReH0wrE0G53hmEwMHJ-cF/preview",
+      title: "DAN TAWAYE (1)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/5992e917-51ba-430c-8225-7748d50384cc/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1MJS_sWsVgn9R9CNs8GiuHGeHqJvpMAxK/preview",
+      title: "DAN TAWAYE (2)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/139985f6-6e0a-42ec-8ce1-0dc2aff89272/-/preview/684x912/",
+      videoUrl: "https://drive.google.com/file/d/1l41qO2wpvBTpb8BgrFMxWOEP8dvzjwc5/preview",
+      title: "TARNAQI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/b4fe719a-82ef-493b-a8c2-3da13fc2b5a3/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1920KljgIsndpZQkC1MpJGYeX-Jx0AFdW/preview",
+      title: "SOYAYYAR BEBAYE (2)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/b4fe719a-82ef-493b-a8c2-3da13fc2b5a3/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1HDPgq4IiJycRxVg6SfVIQUr3_7KiOpJh/preview",
+      title: "SOYAYYAR BEBAYE (1)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/54023773-0494-4a34-9880-e267145da92f/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/19U-TvnC4Hwls002fhKGokLCWmy6Ofg5u/preview",
+      title: "TSANANIN SO",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/f0e8cfb8-0eae-4cf9-88af-ece47ba065cf/-/preview/447x587/",
+      videoUrl: "https://drive.google.com/file/d/1Zf8twhTGSvHcS-ym_usPh3cVfIIwBd04/preview",
+      title: "SADAUKIN YAKI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/5b8274a6-dd57-4799-8445-b82b920e86dd/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1y1GDkaVwK-nfzVrvVSetJviq56jrh97U/preview",
+      title: "TAWAGAR TANTIRAI (2)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/5b8274a6-dd57-4799-8445-b82b920e86dd/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1FmV4-2nCEXLmBFZTs7rzxZZ9JH0k8W3E/preview",
+      title: "TAWAGAR TANTIRAI (1)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/41a3cf2c-2911-410a-a20f-abc0bec7b020/-/preview/720x960/",
+      videoUrl: "https://drive.google.com/file/d/1xkW1SGTydA53N0F_QaKv_1tegCshF0d2/preview",
+      title: "KARFIN JARI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/59faf53e-8844-4f41-b947-e5e5ab008d25/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1mTwPOLKYre87F_XVOPIAW0vxShvE3zEy/preview",
+      title: "RUNDUNA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/f5ad7413-17ce-40a3-98a3-b71035e36031/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1z3aaddZ3D6H8KkQ12FxUQni-1k4XK34E/preview",
+      title: "MACHASKALI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/641651da-c391-4503-903a-62466393d9fd/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1z3aaddZ3D6H8KkQ12FxUQni-1k4XK34E/preview",
+      title: "SARKIN ASKA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/a728691f-b57b-41f6-978a-7969d5fbe92c/-/preview/512x804/",
+      videoUrl: "https://drive.google.com/file/d/1F4yUYzOvYblyedt-jzY58T7Xp5Hmx8IL/preview",
+      title: "GATSALI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/32d65408-76ac-460e-971a-3d8ef7967f73/-/preview/743x1000/",
+      videoUrl: "https://drive.google.com/file/d/1vyECjXi0fTtuKbq4W2PxOR8l8VUi5CiZ/preview",
+      title: "JAGWAL",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/5e6b7814-de82-449a-b00e-1c9b80acb92a/-/preview/620x877/",
+      videoUrl: "https://drive.google.com/file/d/1qJdZJtb2r0clMEXybhVJuc67I9AUqnPd/preview",
+      title: "YAN BINDIGA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/41d196b0-31e7-48bd-bdf3-b97025ffd640/-/preview/743x1000/",
+      videoUrl: "https://drive.google.com/file/d/1QOhlSWjM0XW9RxNkVSYJK_ftPyhB14Mv/preview",
+      title: "KWAMUSHE SU",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+    {
+      imgUrl: "https://ucarecdn.com/1ad0e155-6e76-4bea-9f85-9e442525d0ba/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1bMBGkGj5O5kbCobmSaezeGltJg_g3lo5/preview",
+      title: "JAHADI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/aae94d0d-952f-405e-9a9d-45f5979c6fe8/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/19Dq06dmFZEvNtCB31d4nYw-hpc_6L-k2/preview",
+      title: "BINCIKEN EFCC (1)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/855c9d18-3393-4bd9-a867-a070013c2f31/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/10VZVu5VDgLHDSj23vtaGwqQyX4jagNyb/preview",
+      title: "BINCIKEN EFCC (2)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/c5456c0a-dee4-40ab-aea9-34bf34307ebf/-/preview/514x720/",
+      videoUrl: "https://drive.google.com/file/d/1MARchmld87yp_EsBeBbVzv1gOXPFmBzc/preview",
+      title: "SHARRIN CIKIN GIDA (2)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/c5456c0a-dee4-40ab-aea9-34bf34307ebf/-/preview/514x720/",
+      videoUrl: "https://drive.google.com/file/d/18ya1umHaeMPT54PsNXUyIzyhWfST7tVG/preview",
+      title: "SHARRIN CIKIN GIDA (1)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/b80cc259-762a-431f-9010-6196e9dfe6e0/-/preview/720x975/",
+      videoUrl: "https://drive.google.com/file/d/1hdfqZO1tVfxWIf8n9qolEF4M1xudnsHp/preview",
+      title: "KUDIRI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/eb002439-af11-4a4f-96e2-af7be600f4e8/-/preview/739x1000/",
+      videoUrl: "https://drive.google.com/file/d/1EcEtN-fE4W5GFAOQx2cQQYpPGmm-Jcsi/preview",
+      title: "FARCEN DAMISA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/cf86cd13-e781-494f-870f-4e56f3de8215/-/preview/720x935/",
+      videoUrl: "https://drive.google.com/file/d/1IISSg4lUzGHdimSYbEntnnaE5nf5-fdD/preview",
+      title: "HASEENA YAR KUNAMA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/9a2546e2-bb83-4621-a60c-b6288d759dcf/-/preview/711x1000/",
+      videoUrl: "https://drive.google.com/file/d/1_I7qzLqSsTn5WtvQ2-0V-WmzYiHaRF1v/preview",
+      title: "KARKARA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/bf0ed620-637a-485c-9d44-600e62aaa633/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1Y7c3vMr5a3nFhkRz40AAwT1zsa9fTx1W/preview",
+      title: "KO OHO",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/eccf9a6d-a2ad-4f3e-af78-9a5e977f2511/-/preview/299x419/",
+      videoUrl: "https://drive.google.com/file/d/1eARaJRLqVQ0Ay4P6IxOmIqr6njgAJ42I/preview",
+      title: "UBAN GIDA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/73dd434f-f271-4235-9e48-5a51c63a3189/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1dbMHeEM-bgSwqAp0aH5_zMI5tGidYi4F/preview",
+      title: "GADAR ZARE",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/78510657-908f-4bfd-ad02-22dbf01f7846/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1ZEFDHQEGysyCGmguKVNtwLH0E7tO83wu/preview",
+      title: "SHUGABA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/20d02e80-6c9d-4733-9451-f81d30065292/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1QiPOzGxZIiCQe-uGrB3G_LTI3CnGm9zG/preview",
+      title: "KARAR KWANA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/78539e60-687d-4e6d-93ac-3353201309be/-/preview/194x260/",
+      videoUrl: "https://drive.google.com/file/d/1fcwRl6pkUjsDOCN5vaZLDsO7d05Nn5WY/preview",
+      title: "TSAGERA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/45c17d17-cec9-459c-b7f4-7dd3748a56cb/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1ZGzIz9SBvKQa_kW50RPo9JrhiDcSHSsv/preview",
+      title: "UBAN DABA LAMBA DAYA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/344e5f04-e8fd-425c-9c32-3fc5998f647e/-/preview/667x951/",
+      videoUrl: "https://drive.google.com/file/d/1PUC1rmAWZYhOQWJ3_ds6kgXWIDwYHxXi/preview",
+      title: "SHEDANI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/864a17cf-734f-415c-8075-a6a017afa134/-/preview/720x1000/",
+      videoUrl: "https://drive.google.com/file/d/1JsrvnFRhsqOQGR-z8v_fXBUCcaE16nLe/preview",
+      title: "TSAGAITA WUTA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/c893603c-32a0-466e-97a5-2b6746276180/-/preview/480x645/",
+      videoUrl: "https://drive.google.com/file/d/1oF5kJVY4rzpQS_xQLgVuG2uwjQWS3YsM/preview",
+      title: "TIYAGAS",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/a8e364b0-c209-4165-a685-1ff5af417d90/-/preview/689x1000/",
+      videoUrl: "https://drive.google.com/file/d/1djLyhoiarUXJ10tHuIed4aBRaEtl3dBD/preview",
+      title: "GASKIYA DAYACE",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/a4813f26-2584-4da7-bded-544029b71085/-/preview/720x934/",
+      videoUrl: "https://drive.google.com/file/d/1_RvY85XRTaAOQTbe8uInJT6yrPaP_r5S/preview",
+      title: "ANTAYE",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/270627c4-c832-4bea-9659-3f1ce4f3c479/-/preview/810x1000/",
+      videoUrl: "https://drive.google.com/file/d/1J1RgKwSoNYAErCXVNB1b5mPRxjs3Vp1L/preview",
+      title: "RAMUWA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/f3abd9aa-c651-49c5-821e-2b24d1182c5e/-/preview/720x978/",
+      videoUrl: "https://drive.google.com/file/d/1g7r3CnMh_3ufNWC-1AMtwUbZm5nNe32d/preview",
+      title: "IKON GWAMNATI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/f2d64207-74bf-487e-96c3-e775328412fa/-/preview/706x1000/",
+      videoUrl: "https://drive.google.com/file/d/1fG_82IFeP_XO3CB22ZUEPu_p1yC9Bl7R/preview",
+      title: "ZAKAMIN SO",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/fc006f38-4ff5-4e08-b73c-53f3a2a0ac1b/-/preview/712x1000/",
+      videoUrl: "https://drive.google.com/file/d/19TNFEUnx4RIWYl9PoCg1fwtDyvuCV1zO/preview",
+      title: "YAKI DA FYADE",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/4bb1b9eb-4d62-4bca-b83e-bc693f208657/-/preview/393x491/",
+      videoUrl: "https://drive.google.com/file/d/1Pxj2bSpNckqQmWE33DJ1wtAeF6Y-VBKx/preview",
+      title: "SARKIN SOYAYYA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/ec08e2be-26f3-4f68-b5dd-37d15c901d6d/-/preview/140x207/",
+      videoUrl: "https://drive.google.com/file/d/1dwkQxeNgGVBZ6PQ6Nw7gVRQ0XO89Tqmp/preview",
+      title: "MAI TABARGAZA (2)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/ec08e2be-26f3-4f68-b5dd-37d15c901d6d/-/preview/140x207/",
+      videoUrl: "https://drive.google.com/file/d/13bvukga_Zu1PiK6uq_3vThFb5SeEPiN7/preview",
+      title: "MAI TABARGAZA (1)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/e8b5aadd-1556-4079-8628-2fa261e843b7/-/preview/300x168/",
+      videoUrl: "https://drive.google.com/file/d/1Exhl1I0X5S44D4ceISk65zEWkeZucGLd/preview",
+      title: "MAI ADDA 1",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/febd2873-8ca5-473f-a073-844de2c4ee04/-/preview/225x225/",
+      videoUrl: "https://drive.google.com/file/d/10kBhasmZUH3KjAY_nv3EZ8JG2bMAIqet/preview",
+      title: "MAI ADDA 2",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/c64cfece-79b9-4d20-bcd0-659be4d23294/-/preview/714x960/",
+      videoUrl: "https://drive.google.com/file/d/1unT4DkJSW6iJg8hpuepeC04Q2PCEnv_V/preview",
+      title: "SOJAN TAKIFE",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/7d97323c-8370-454c-b9a8-e720c8e2a72d/-/preview/743x1000/",
+      videoUrl: "https://drive.google.com/file/d/1uGoN_V47BIBUbtHSOPfyPKMW9T3FmPRj/preview",
+      title: "KWAMUSHE",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/4d8b315d-1492-4154-a46b-02c713e4b856/-/preview/715x1000/",
+      videoUrl: "https://drive.google.com/file/d/11jscGiWZ7YcNw9PsLxcrNmt3pf7Sx7Ey/preview",
+      title: "KWAKWAF",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/0b231725-1983-4626-9ef4-cf50ba9e6731/-/preview/189x267/",
+      videoUrl: "https://drive.google.com/file/d/19c_k3hQLmlWrk1asJgtKJ6724713Rknc/preview",
+      title: "KITIMURMURA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/f75f700f-e3d7-4229-ba53-620bc2371063/-/preview/388x600/",
+      videoUrl: "https://drive.google.com/file/d/1I4s-UPZ_BsEUxNSfUNTVGLdTEuSo3-XS/preview",
+      title: "KARAR KWANA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/3f9967b0-f76c-458c-bac8-dd07d37f5680/-/preview/750x938/",
+      videoUrl: "https://drive.google.com/file/d/15bI3jbjfJnvJJiGHp0CXXZZ4Mokkt-gH/preview",
+      title: "JA'IRIN SIRIKI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/33b9badf-49d2-40e5-962b-a1007c80a71e/-/preview/183x276/",
+      videoUrl: "https://drive.google.com/file/d/1lTpVDZpZ-vFRajg_6djYAg18CeNbGmQI/preview",
+      title: "HATSABIBI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/c18a8efd-208c-4519-912e-75593356a49b/-/preview/720x969/",
+      videoUrl: "https://drive.google.com/file/d/14l7m3ON1s4LmZGVMIe_Sqbc_dESSsdvX/preview",
+      title: "GUDUN HIJIRA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/b84dbb72-2077-4df2-b6f9-953e2017f4fa/-/preview/775x1000/",
+      videoUrl: "https://drive.google.com/file/d/1WX4CONFbwIIn_qL1c5wLTKI-DX7L6UhV/preview",
+      title: "GIDAN KURKUKU GHAYAL 2",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/59e6e54a-c0cf-418d-a705-053f97a8c8fc/-/preview/650x867/",
+      videoUrl: "https://drive.google.com/file/d/1MaeC6C6oAl_Fs9qp80nSeSvCVFIpZ2Zq/preview",
+      title: "GIDAN KURKUKU GHAYAL 1",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/2124fefe-699e-463e-bea4-d012f0a30db1/-/preview/183x275/",
+      videoUrl: "https://drive.google.com/file/d/1DSYUibLvJpXIXyYBFdsEueMrMU94JS7m/preview",
+      title: "DANYEN AIKI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/69b3e8c1-a004-4654-8136-458b94f2bac8/-/preview/720x985/",
+      videoUrl: "https://drive.google.com/file/d/1Ac-NexYurIdqO-8NSzl1SubCWMTHIGCR/preview",
+      title: "GAIBU",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/cd301deb-fa67-43c1-b6e6-656ed3c1affa/-/preview/424x575/",
+      videoUrl: "https://drive.google.com/file/d/1s0skVvwpenfiR9mnmJcqqkjbaWbjlqoX/preview",
+      title: "GAGARE (2)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/9243c4ab-ed2d-465a-b578-fa6eded82f92/-/preview/424x574/",
+      videoUrl: "https://drive.google.com/file/d/1xgxz81qm3bUPEIgoEuLs6kyWMEKRxvbW/preview",
+      title: "GAGARE (1)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/2b67dcde-8b3d-4473-82ac-c13e54627045/-/preview/188x269/",
+      videoUrl: "https://drive.google.com/file/d/13AUABfZClvc1sROvtwWVR7kK30aiYazQ/preview",
+      title: "DAN DAMISA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/6b69a202-bafa-4ba7-ae9f-efce695f7014/-/preview/720x917/",
+      videoUrl: "https://drive.google.com/file/d/1Z5YWHT1O5sIAudXQiy82W2YTH9S445eY/preview",
+      title: "DAMUSA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/dee44473-df0c-4034-81d1-d0b98bd8d524/-/preview/650x830/",
+      videoUrl: "https://drive.google.com/file/d/1TXmDYWGUKyYEKG_Qfdb7zLLHsmpWatt0/preview",
+      title: "DAN KWALISA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/ff8ceee8-1469-4ff0-9531-8459b7fdd5cb/-/preview/540x752/",
+      videoUrl: "https://drive.google.com/file/d/1w4Ukd_q0rbt2Bi3G1KE3NddCCUYp-yWm/preview",
+      title: "CIMA ZAUNE",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/d52f951e-34fa-433b-acc0-75d6929212fe/-/preview/428x600/",
+      videoUrl: "https://drive.google.com/file/d/1VAwuJ7-vialU3mjbT2jCX0TXXCFjC4NK/preview",
+      title: "BIRNIN TARIHI (1)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/328c42f2-2d99-4dbd-b8bf-5456d3a0b7f8/-/preview/138x200/",
+      videoUrl: "https://drive.google.com/file/d/1f2xqFiLmAXZ39v_8jGU2QJL2r87pLm6N/preview",
+      title: "BIRNIN TARIHI (2)",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/eb75210f-4b8c-47cf-827b-0e84d65fd2bb/-/preview/675x848/",
+      videoUrl: "https://drive.google.com/file/d/18otop-Zp50blUvOfZa2QK6vOAZao__qm/preview",
+      title: "BIJIRARRE",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/c37d30a1-87f8-4a23-98a3-ee23f57e030b/-/preview/630x847/",
+      videoUrl: "https://drive.google.com/file/d/1fIyZFD8hwdgEuMA3D58aMUcddlW2mGGK/preview",
+      title: "BADALI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/32c8afc5-7b80-4441-8954-08edcdb5e31b/-/preview/723x1000/",
+      videoUrl: "https://drive.google.com/file/d/1rb5bwSO_Lc93BXt4s7FJKZbEuF8rHNQL/preview",
+      title: "AMANAR TALAKA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/82a96309-b46d-47f1-a806-2274b2411d59/-/preview/720x899/",
+      videoUrl: "https://drive.google.com/file/d/1e_eNip5OOrFQWxrFCt33tCBtJ86IoqeP/preview",
+      title: "ABUSA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/02b5e586-7770-4d82-8203-a7f042e061f1/-/preview/712x711/",
+      videoUrl: "https://drive.google.com/file/d/126PBSogVpUjrKN-nQhUEeetohEMYuOCQ/preview",
+      title: "YAN UKU",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/dc324611-3941-45e3-8249-6c1c25bfdd18/-/preview/714x960/",
+      videoUrl: "https://drive.google.com/file/d/1fKDSg25wArbvTkgedgrgyeZuR1cPXWal/preview",
+      title: "TIRJIYA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/e212ead9-82de-4c21-91d1-4045bf772e9d/-/preview/620x877/",
+      videoUrl: "https://drive.google.com/file/d/1SdyjqoJuu_cdqhvkgkOXc6xj60sfVTH-/preview",
+      title: "DAABI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/d56456a0-4e50-4115-9722-45ed90f35f8d/-/preview/642x960/",
+      videoUrl: "https://drive.google.com/file/d/1l5ke1h3FjnOKc4y9AY5otjAwZ16YI0MA/preview",
+      title: "LABARIN DAN SANDA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/d17cfb7e-240c-46c1-ad8e-45c7eb1ecb2f/-/preview/960x960/",
+      videoUrl: "https://drive.google.com/file/d/1UcUsuK6DyYxGtHpetirCLSFLFHKzVat_/preview",
+      title: "JAJIRTACCE",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/0f4a2ec5-116d-4525-a412-a1c2f01a5258/-/preview/800x1000/",
+      videoUrl: "https://drive.google.com/file/d/1CdzHkA3KBNndiwmvyIoL37KyqU0MuHTY/preview",
+      title: "BABBAR YAYA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/1c5f7e27-4453-44cc-8ec2-e6b938e9d1ee/-/preview/620x877/",
+      videoUrl: "https://drive.google.com/file/d/1Ul6myUyhPB4msoQS3AR70USYn1bPzDTn/preview",
+      title: "BOKAN YAKI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/bfe19337-c37f-4c78-90d2-6c634ce3514c/-/preview/725x1000/",
+      videoUrl: "https://drive.google.com/file/d/1PGxRKTdiWT4wwCMxyTjEjXuojRfVtCXW/preview",
+      title: "SAMBADEBADE",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/3454c4d5-75b4-4fd6-b8b5-f3994fe15c55/-/preview/480x645/",
+      videoUrl: "https://drive.google.com/file/d/1yssc4FvxCRni5LMz6JUrSen49gH0UHFx/preview",
+      title: "GARWASHI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/4cd36547-38a9-438a-ab4a-893b528ef68d/-/preview/469x640/",
+      videoUrl: "https://drive.google.com/file/d/1ViC2TC5etBdvkXwmLFLHNNqgSr5w_w53/preview",
+      title: "MAKIYAYI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/d3e4b86b-30f8-471d-9486-5bc954b6c3f0/-/preview/668x1000/",
+      videoUrl: "https://drive.google.com/file/d/1R4gDdQY1KQP1Q1EQHgZE5IdDc4zgjR8M/preview",
+      title: "DAN BASAJA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/3189c45a-7647-4658-a077-4c7d23fd2773/-/preview/192x263/",
+      videoUrl: "https://drive.google.com/file/d/1dlXIi_XjpIIVeQ062ZCW53Lq--stGfWJ/preview",
+      title: "DAN MAI KARFI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/a1c997eb-ab10-4145-9313-ef34630cd636/-/preview/600x600/",
+      videoUrl: "https://drive.google.com/file/d/1vTfmyZOH7UGjhndEQrqBOV5dAOsbZIX_/preview",
+      title: "GIJIN YAKI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  {
+      imgUrl: "https://ucarecdn.com/82105b3f-fe6f-4d89-92fc-2d4757234b35/-/preview/506x900/",
+      videoUrl: "https://drive.google.com/file/d/1vTfmyZOH7UGjhndEQrqBOV5dAOsbZIX_/preview",
+      title: "GHAJINI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+    {
+      imgUrl: "https://ucarecdn.com/4a451f03-8564-4c96-b0f2-98aad631984c/-/preview/664x1000/",
+      videoUrl: "https://drive.google.com/file/d/1nuw_OL9IUBEpdb0TFlCAzc6W66iyH5Ss/preview",
+      title: "AZZALUMIN RUHI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+    {
+      imgUrl: "https://ucarecdn.com/3b5cd62c-40ad-44d2-bff2-b7d285cb815c/-/preview/744x1000/",
+      videoUrl: "https://drive.google.com/file/d/1qzKLoJTBUjPyf2RKeLmCObMFq0uBvhHy/preview",
+      title: "ALKAWARI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+    {
+      imgUrl: "https://ucarecdn.com/0a0537fd-6565-4e43-afe2-ee10ce92fcbf/-/preview/488x661/",
+      videoUrl: "https://drive.google.com/file/d/1a-oxUAgSjlfumA3mT6-wDEBG3to6gy7t/preview",
+      title: "MATASHIN SOJA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+    {
+      imgUrl: "https://ucarecdn.com/e92c9979-607b-49c7-be33-0110ddb8a17f/-/preview/197x256/",
+      videoUrl: "https://drive.google.com/file/d/1dLLjdZG739xHexJvacUPvooWjDqpFuM4/preview",
+      title: "KAIDI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+    {
+      imgUrl: "https://ucarecdn.com/17ce9fa1-6606-417c-b80e-4273adf9c93a/-/preview/771x1000/",
+      videoUrl: "https://drive.google.com/file/d/1cWMkhhYnHTqBDbuCELtATR2V17c2zZFc/preview",
+      title: "MAI MAKANA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+    {
+      imgUrl: "https://ucarecdn.com/ce019a98-8c78-4e30-b581-48c4e40d311a/-/preview/715x1000/",
+      videoUrl: "https://drive.google.com/file/d/1_vzo9ZsJvbxxhKtyVaCWYbZNPybHO2kY/preview",
+      title: "USTAZ",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+    {
+      imgUrl: "https://ucarecdn.com/695bce5b-3fb6-4254-a406-8c06977c260e/-/preview/720x963/",
+      videoUrl: "https://drive.google.com/file/d/1CWOELtePqeDDI-t07aWB0NAWQXlvH-ul/preview",
+      title: "KABILANCI",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+    {
+      imgUrl: "https://ucarecdn.com/5332d0cd-7915-4111-a6e7-0037f9a2ca51/-/preview/562x1000/",
+      videoUrl: "https://drive.google.com/file/d/1qaPa0odvnAbmf0WBIu6TYcCXGU1xBTI0/preview",
+      title: "ZAKIN HUKUMA",
+      year: "ALGAITA",
+      tag: "Algaita",
+    },
+  ];
+
+  let savedVideos = JSON.parse(localStorage.getItem('savedVideos')) || [];
+  let historyVideos = JSON.parse(localStorage.getItem('historyVideos')) || [];
+
+  // Function to shuffle array
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+  // Functions for page display
+  const displayHome = () => {
+    const shuffledData = [...data];
+    shuffleArray(shuffledData);
+    document.getElementById('frames-container').style.display = 'grid';
+    document.getElementById('playlist-container').style.display = 'none';
+    document.getElementById('saved-container').style.display = 'none';
+    document.getElementById('history-container').style.display = 'none';
+    createVideoItems(shuffledData);
+  };
+
+  // Create video items
+  const createVideoItems = (filteredData) => {
+    const container = document.getElementById('frames-container');
+    container.innerHTML = '';
+    (filteredData || data).forEach((item) => {
+      const videoItem = document.createElement('div');
+      videoItem.className = 'video-item';
+
+      const img = document.createElement('img');
+      img.src = item.imgUrl;
+      img.alt = item.title;
+      img.onclick = () => {
+        addToHistory(item);
+        openVideoNav(item.videoUrl);
+      };
+
+      const titleDiv = document.createElement('div');
+      titleDiv.className = 'video-title';
+      titleDiv.innerText = item.title;
+
+      const yearDiv = document.createElement('div');
+      yearDiv.className = 'video-year';
+      yearDiv.innerText = item.year;
+
+      const saveBtn = document.createElement('button');
+      saveBtn.className = 'save-button';
+      saveBtn.innerHTML = '<i class="fas fa-bookmark"></i>';
+      saveBtn.onclick = (e) => {
+        e.stopPropagation();
+        saveVideo(item);
+        saveBtn.style.color = 'red'; // Indicate saved
+      };
+
+      videoItem.appendChild(img);
+      videoItem.appendChild(titleDiv);
+      videoItem.appendChild(yearDiv);
+      videoItem.appendChild(saveBtn);
+      container.appendChild(videoItem);
+    });
+  };
+
+  const openVideoNav = (videoUrl) => {
+    document.getElementById('video-nav').style.display = 'block';
+    document.getElementById('video-player').src = videoUrl;
+    populatePopularVideos();
+  };
+
+  const closeVideoNav = () => {
+    document.getElementById('video-nav').style.display = 'none';
+    document.getElementById('video-player').src = '';
+  };
+
+  const populatePopularVideos = () => {
+    const container = document.getElementById('popular-container');
+    container.innerHTML = '';
+    data.forEach((item) => {
+      const popItem = document.createElement('div');
+      popItem.className = 'popular-item';
+      popItem.onclick = () => {
+        addToHistory(item);
+        openVideoNav(item.videoUrl);
+      };
+
+      const img = document.createElement('img');
+      img.src = item.imgUrl;
+
+      const title = document.createElement('h4');
+      title.textContent = item.title;
+
+      popItem.appendChild(img);
+      popItem.appendChild(title);
+      container.appendChild(popItem);
+    });
+  };
+
+  const saveVideo = (video) => {
+    if (!savedVideos.some(v => v.videoUrl === video.videoUrl)) {
+      savedVideos.unshift(video);
+      localStorage.setItem('savedVideos', JSON.stringify(savedVideos));
+      displaySaved();
+    } else {
+      alert(`${video.title} is already saved!`);
+    }
+  };
+
+  const addToHistory = (video) => {
+    if (!historyVideos.some(h => h.videoUrl === video.videoUrl)) {
+      historyVideos.unshift(video);
+      if (historyVideos.length > 10) {
+        historyVideos.pop();
+      }
+      localStorage.setItem('historyVideos', JSON.stringify(historyVideos));
+    }
+  };
+
+  // Show saved videos
+  const displaySaved = () => {
+    document.getElementById('frames-container').style.display = 'none';
+    document.getElementById('playlist-container').style.display = 'none';
+    document.getElementById('history-container').style.display = 'none';
+    document.getElementById('saved-container').style.display = 'block';
+
+    const container = document.getElementById('saved-content');
+    container.innerHTML = '';
+
+    savedVideos.forEach((item, index) => {
+      const savedItem = document.createElement('div');
+      savedItem.className = 'saved-item';
+
+      const img = document.createElement('img');
+      img.src = item.imgUrl;
+      img.onclick = () => {
+        addToHistory(item);
+        openVideoNav(item.videoUrl);
+      };
+
+      const titleDiv = document.createElement('h3');
+      titleDiv.innerText = item.title;
+
+      const yearDiv = document.createElement('div');
+      yearDiv.className = 'video-year';
+      yearDiv.innerText = item.year;
+
+      const removeBtn = document.createElement('span');
+      removeBtn.innerText = '🔖 REMOVE';
+      removeBtn.onclick = (e) => {
+        e.stopPropagation();
+        removeSavedVideo(index);
+      };
+
+      savedItem.appendChild(img);
+      savedItem.appendChild(titleDiv);
+      savedItem.appendChild(yearDiv);
+      savedItem.appendChild(removeBtn);
+      container.appendChild(savedItem);
+    });
+  };
+
+  const removeSavedVideo = (index) => {
+    savedVideos.splice(index, 1);
+    localStorage.setItem('savedVideos', JSON.stringify(savedVideos));
+    displaySaved();
+  };
+
+  // Display playlist videos
+const displayPlaylist = () => {
+    document.getElementById('frames-container').style.display = 'grid';
+    document.getElementById('saved-container').style.display = 'none';
+    document.getElementById('history-container').style.display = 'none';
+    document.getElementById('playlist-container').style.display = 'block';
+
+    const playlistContent = document.getElementById('playlist-content');
+    playlistContent.innerHTML = '';
+
+    // Here you can add some predefined playlist videos
+    const playlistData = [
+        { imgUrl: "https://bit.ly/4gCtC1L", videoUrl: "https://youtube.com/embed/CetjkiaH2x0", title: "APOCALYPSE 2", year: "2021" },
+        { imgUrl: "https://bit.ly/4fFLfwd", videoUrl: "https://youtube.com/embed/BAQV7hQdznE", title: "VIKING BATTLE", year: "2023" },
+        {
+            imgUrl: "https://bit.ly/4gZ1VzL",
+            videoUrl: "https://youtube.com/embed/xzk1ko7AN2M",
+            title: "PTERODACTYL 2",
+            year: "2023",
+            tag: "Monster",
+        },
+    ];
+
+    createVideoItems(playlistData); // Display playlist videos in grid
+};
+
+  // Show history
+  const displayHistory = () => {
+    document.getElementById('frames-container').style.display = 'none';
+    document.getElementById('playlist-container').style.display = 'none';
+    document.getElementById('saved-container').style.display = 'none';
+    document.getElementById('history-container').style.display = 'block';
+
+    const container = document.getElementById('history-content');
+    container.innerHTML = '';
+
+    historyVideos.forEach((item) => {
+      const histItem = document.createElement('div');
+      histItem.className = 'history-item';
+
+      const img = document.createElement('img');
+      img.src = item.imgUrl;
+      img.onclick = () => {
+        addToHistory(item);
+        openVideoNav(item.videoUrl);
+      };
+
+      const titleDiv = document.createElement('h3');
+      titleDiv.innerText = item.title;
+
+      const yearDiv = document.createElement('div');
+      yearDiv.className = 'video-year';
+      yearDiv.innerText = item.year;
+
+      histItem.appendChild(img);
+      histItem.appendChild(titleDiv);
+      histItem.appendChild(yearDiv);
+      container.appendChild(histItem);
+    });
+  };
+
+  // Navigation functions
+  const showHome = () => {
+    displayHome();
+  };
+
+  const showPlaylist = () => {
+    displayPlaylist();
+  };
+
+  const showSaved = () => {
+    displaySaved();
+  };
+
+  const showHistory = () => {
+    displayHistory();
+  };
+
+  const openNovels = () => {
+    window.open("https://your-novels-url.com", "_blank");
+  };
+
+  // Search handling with icon
+  let debounceTimer;
+  document.getElementById('search-bar').addEventListener('input', () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      const term = document.getElementById('search-bar').value.toLowerCase();
+      const filtered = data.filter(item => item.title.toLowerCase().includes(term));
+      createVideoItems(filtered);
+    }, 300);
+  });
+  
+  // After data is defined
+document.getElementById('allBtn').innerText = `All (${data.length})`;
+
+  // Filter by tag
+const filterByTag = (tag, event) => {
+  const filtered = tag === 'all' ? data : data.filter(item => item.tag === tag);
+  createVideoItems(filtered);
+
+  // Update active tag
+  document.querySelectorAll('.tag').forEach(t => {
+    t.classList.remove('active');
+  });
+
+  if (event) {
+    event.target.classList.add('active');
+  }
+};
+
+  // Share links
+  const shareLink = (platform) => {
+    const url = 'https://i-tube-movies.netlify.app/';
+    let shareUrl = '';
+
+    switch (platform) {
+      case 'telegram':
+        shareUrl = `https://telegram.me/share/url?url=${encodeURIComponent(url)}`;
+        break;
+      case 'twitter':
+        shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}`;
+        break;
+      case 'whatsapp':
+        shareUrl = `https://wa.me/?text=${encodeURIComponent(url)}`;
+        break;
+      case 'generic':
+        if (navigator.share) {
+          navigator.share({ title: 'Check out this video platform!', url: url }).catch(console.error);
+          return;
+        } else {
+          alert('Sharing not supported in this browser.');
+          return;
+        }
+    }
+    window.open(shareUrl, '_blank');
+  };
+
+  // Hide footer on scroll
+  let lastScrollTop = 0;
+  const footer = document.querySelector('footer');
+
+  window.addEventListener('scroll', () => {
+    const st = window.pageYOffset || document.documentElement.scrollTop;
+    if (st > lastScrollTop) {
+      footer.style.transform = 'translateY(100%)';
+    } else {
+      footer.style.transform = 'translateY(0)';
+    }
+    lastScrollTop = st <= 0 ? 0 : st;
+  });
+
+  // Ad logic
+  const apps = [
+      {
+          name: "Cheelee: Short Videos f...",
+          icon: "https://tinylink.info/119AL",
+          rating: "4.5",
+          link: "https://tinylink.info/119Aa"
+      },
+      {
+          name: "CoolApp",
+          icon: "https://tinylink.info/119A0",
+          rating: "4.8",
+          link: "https://tinylink.info/YchD"
+      },
+      {
+          name: "Z League: Mini Games & Friends",
+          icon: "https://tinylink.info/Ycg4",
+          rating: "4.0",
+          link: "https://tinylink.info/119yG"
+      }
+  ];
+
+  const adContainer = document.getElementById('adContainer');
+  const adContent = document.getElementById('adContent');
+  const installButton = document.getElementById('installButton');
+
+  let currentAdIndex = parseInt(localStorage.getItem('currentAdIndex')) || 0;
+
+  function showAd(index) {
+    const app = apps[index];
+    adContent.innerHTML = `
+      <div class="app-icon">
+        <img src="${app.icon}" alt="App Icon" />
+      </div>
+      <div class="ad-info">
+        <div class="app-name">${app.name}</div>
+        <div class="ad-meta">
+          <span class="sponsored">Sponsored ·</span>
+          <span>${app.rating} ★ FREE</span>
+        </div>
+      </div>
+    `;
+    installButton.href = app.link;
+    adContainer.style.display = 'flex';
+
+    localStorage.setItem('currentAdIndex', index);
+  }
+
+  function rotateAds() {
+    showAd(currentAdIndex);
+    currentAdIndex = (currentAdIndex + 1) % apps.length;
+  }
+
+  // Show first ad immediately and rotate
+  rotateAds();
+  setInterval(rotateAds, 15000);
+
+  // Display home on load
+  document.addEventListener('DOMContentLoaded', () => {
+    displayHome();
+
+    // Show ad after 40 seconds
+    setTimeout(() => {
+      document.getElementById('adContainer').style.display = 'flex';
+    }, 4000);
+
+    // Close ad
+    document.getElementById('adContainer').onclick = () => {
+      document.getElementById('adContainer').style.display = 'none';
+    };
+
+    document.getElementById('close-videonav').onclick = closeVideoNav;
+    document.getElementById('close-install').onclick = () => {
+      document.getElementById('install-message').style.display = 'none';
+    };
+  });
+</script>
+</body>
+<script>
+  function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.innerText = message;
+    toast.style.display = "block";
+    setTimeout(() => {
+      toast.style.display = "none";
+    }, 3000);
+  }
+
+  function showAdOverlay() {
+    document.getElementById('adOverlay').style.display = 'flex';
+  }
+
+  function watchAd() {
+    const adUrl = 'https://www.profitableratecpm.com/yj516zqeuh?key=67623d7811021ba7d072604ff121c586';
+    window.open(adUrl, '_blank');
+
+    const newPassword = Math.random().toString(36).substring(2, 8).toUpperCase();
+    localStorage.setItem('activePassword', newPassword);
+    localStorage.setItem('passwordUsed', 'false');
+
+    document.getElementById('vipPassword').value = newPassword;
+    document.getElementById('timer').innerText = "Password saved. Valid until used.";
+  }
+
+  function validatePassword() {
+    const input = document.getElementById('vipPassword').value.trim();
+    const storedPassword = localStorage.getItem('activePassword');
+    const used = localStorage.getItem('passwordUsed');
+
+    if (!storedPassword || used === 'true') {
+      showToast("❌ No valid password available.");
+      return;
+    }
+
+    if (input === storedPassword) {
+      showToast("✅ Access granted!");
+      localStorage.setItem('passwordUsed', 'true'); // expire it by use
+      closeAd();
+    } else {
+      showToast("❌ Invalid password.");
+    }
+  }
+
+  function closeAd() {
+    document.getElementById('adOverlay').style.display = 'none';
+    document.getElementById('vipPassword').value = '';
+    document.getElementById('timer').innerText = '';
+  }
+
+  function loadStoredPassword() {
+    const storedPassword = localStorage.getItem('activePassword');
+    const used = localStorage.getItem('passwordUsed');
+
+    if (storedPassword && used === 'false') {
+      document.getElementById('vipPassword').value = storedPassword;
+      document.getElementById('timer').innerText = "Valid password loaded from previous session.";
+    }
+  }
+
+  // Show popup on page load
+  window.onload = () => {
+    showAdOverlay();
+    loadStoredPassword();
+  };
+</script> 
+</html>
